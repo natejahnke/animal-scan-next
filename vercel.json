@@ -1,0 +1,15 @@
+{
+    "version": 2,
+    "build": {
+      "env": {
+        "OPENAI_API_KEY": "@openai_api_key"
+      }
+    },
+    "env": {
+        "OPENAI_API_KEY": "@openai_api_key"
+      },
+    "rewrites": [
+      { "source": "/api/openai", "destination": "/api/openai.js" }
+    ]
+  }
+  
