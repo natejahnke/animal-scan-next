@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { animals } from "../pages/animals"
+import { animals } from "../public/animals";
 import resizeImage from "./utils/resizeImage";
 import fetchAnimalInfo from "./utils/fetchAnimalInfo";
 
