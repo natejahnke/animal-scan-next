@@ -95,7 +95,7 @@ function AnimalImage({
   return (
     <div className="flex flex-col justify-center mt-4">
       {imageSrc && (
-        <div className="w-full h-[20vh] max-h-[30vh] mx-auto relative">
+        <div className="w-full h-[25vh] max-h-[30vh] mx-auto relative">
           <div className="absolute inset-0 overflow-hidden rounded-lg">
             <Image
               src={imageSrc}
@@ -117,7 +117,7 @@ function AnimalImage({
       )}
       <label
         htmlFor="fileinput"
-        className="self-center px-3 py-2 mt-2 font-medium leading-6 text-white bg-indigo-600 rounded-lg"
+        className="self-center px-4 py-2 mt-4 font-medium leading-6 text-white bg-indigo-600 rounded-lg cursor-pointer hover:bg-indigo-500 transition-colors duration-300"
         style={{ zIndex: 2 }}
       >
         Upload Image
