@@ -14,6 +14,17 @@ function AnimalImage({
   const [animalDetails, setAnimalDetails] = useState("");
   const [imageSrc, setImageSrc] = useState(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const isAnimal = (caption) => {
+    for (const name of animals) {
+      const regex = new RegExp(`\\b${name}(s)?\\b`, "i");
+      if (regex.test(caption)) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const handleFileSelect = async (evt) => {
     setLoading(true);
@@ -82,6 +93,15 @@ function AnimalImage({
       const data = await response.json();
 
       const fullCaption = data?.description?.captions?.[0]?.text ?? "";
+      if (!isAnimal(fullCaption)) {
+        setErrorMessage(
+          "No animal detected. Please upload an image of an animal."
+        );
+        onLoadingComplete();
+        return "";
+      } else {
+        setErrorMessage("");
+      }
 
       return fullCaption;
     } catch (error) {
@@ -129,6 +149,10 @@ function AnimalImage({
         className="hidden"
         onChange={handleFileSelect}
       />
+      {/* ... (existing code) */}
+      {errorMessage && (
+        <div className="text-red-600 text-center mt-4">{errorMessage}</div>
+      )}
     </div>
   );
 }
