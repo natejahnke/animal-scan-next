@@ -3,12 +3,12 @@ import React from "react";
 const AnimalInfoItem = ({ title, content }) => {
   return (
     <div className="mb-2">
-      <span className="font-bold capitalize">{title}:</span>{" "}
-      <span className="text-gray-600">{content}</span>
+      <span className="font-bold capitalize text-base">{title}:</span>{" "}
+      <span className="text-gray-600 text-xs">{content}</span>
     </div>
   );
 };
 
 export default AnimalInfoItem;
 
-// Path: animal-detector-react\src\components\AnimalInfoItem.js
+// Path: components\AnimalInfoItem.js

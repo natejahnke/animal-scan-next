@@ -29,4 +29,4 @@ const fetchAnimalInfo = async (animalName, prompt) => {
 
 export default fetchAnimalInfo;
 
-// Path: animal-detector-react\src\components\utils\fetchAnimalInfo.js
+// Path: components\utils\fetchAnimalInfo.js

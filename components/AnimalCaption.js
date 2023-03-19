@@ -54,24 +54,25 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
   return (
     // Render the animal caption component
     <div className="px-2 bg-white rounded-lg shadow-lg">
-        <>
-          <h3 id="animalName" className="mb-4 text-2xl font-bold text-center">
-            {animalName}
-          </h3>
-          <h3 id="AIresponse" className="mb-6 text-lg text-center">
-            {fullCaption}
-          </h3>
-          {/* Render the structured animal information using the AnimalInfoItem component */}
-          <div>
-            {Object.entries(structuredInfo).map(([key, value]) => (
-              <AnimalInfoItem key={key} title={key} content={value} />
-            ))}
-          </div>
-        </>
+      <>
+        <h3 id="animalName" className="text-2xl font-bold text-center">
+          {animalName}
+        </h3>
+        <h3 id="AIresponse" className="mb-2 text-lg">
+          <span className="text-xs font-bold">Azure Computer Vision: </span>
+          {fullCaption}
+        </h3>
+        {/* Render the structured animal information using the AnimalInfoItem component */}
+        <div>
+          {Object.entries(structuredInfo).map(([key, value]) => (
+            <AnimalInfoItem key={key} title={key} content={value} />
+          ))}
+        </div>
+      </>
     </div>
   );
 }
 
 export default AnimalCaption;
 
-// Path: animal-detector-react\src\components\AnimalCaption.js
+// Path: components\AnimalCaption.js

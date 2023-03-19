@@ -2,30 +2,33 @@ import React, { useRef, useState } from "react";
 import { animals } from "../public/animals";
 import resizeImage from "./utils/resizeImage";
 import fetchAnimalInfo from "./utils/fetchAnimalInfo";
+import Image from "next/image";
 
-function AnimalImage({ onImageProcess, onImageUpload, onLoadingComplete, setLoading  }) {
-  const canvasRef = useRef(null);
+function AnimalImage({
+  onImageProcess,
+  onImageUpload,
+  onLoadingComplete,
+  setLoading,
+}) {
   const [opacity, setOpacity] = useState(0);
   const [animalDetails, setAnimalDetails] = useState("");
+  const [imageSrc, setImageSrc] = useState(null);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 
   const handleFileSelect = async (evt) => {
     setLoading(true);
     onImageProcess("", "", "");
     onImageUpload();
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    canvas.style.opacity = 0;
     setOpacity(0);
 
     const files = evt.target.files;
     const file = files[0];
 
-    const img = new Image();
-    img.onload = function () {
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      context.drawImage(img, 0, 0);
-      canvas.style.opacity = 1;
+    const img = new window.Image();
+    img.onload = () => {
+      setDimensions({ width: img.naturalWidth, height: img.naturalHeight });
+      setImageSrc(URL.createObjectURL(file));
+      setOpacity(1);
     };
     img.src = URL.createObjectURL(file);
 
@@ -49,13 +52,12 @@ function AnimalImage({ onImageProcess, onImageUpload, onLoadingComplete, setLoad
     }
 
     onImageProcess(animalName, fullCaption, animalInfo);
-    setOpacity(1);
-    onLoadingComplete();
+    setLoading(false);
   };
 
   const processImage = async (blobImage) => {
-    const subscriptionKey = process.env.REACT_APP_SUBSCRIPTION_KEY;
-    const endpoint = process.env.REACT_APP_ENDPOINT;
+    const subscriptionKey = process.env.NEXT_PUBLIC_SUBSCRIPTION_KEY;
+    const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
     const uriBase = endpoint + "vision/v3.2/analyze";
 
     const params = {
@@ -88,12 +90,31 @@ function AnimalImage({ onImageProcess, onImageUpload, onLoadingComplete, setLoad
     }
   };
 
+  const aspectRatio = dimensions.width / dimensions.height;
+
   return (
     <div className="flex flex-col justify-center mt-4">
-      <canvas
-        ref={canvasRef}
-        className={`rounded-lg max-h-80 w-auto object-cover opacity-${opacity} transition-opacity duration-1000`}
-      />
+      {imageSrc && (
+        <div className="w-full h-[20vh] max-h-[30vh] mx-auto relative">
+          <div className="absolute inset-0 overflow-hidden rounded-lg">
+            <Image
+              src={imageSrc}
+              alt="Uploaded Animal"
+              width={dimensions.width}
+              height={dimensions.height}
+              className={`object-contain transition-opacity duration-1000 ${
+                opacity === 1 ? "opacity-100" : "opacity-0"
+              } absolute inset-0 m-auto`}
+              style={{
+                maxHeight: "100%",
+                maxWidth: "100%",
+                height: "auto",
+                width: `calc(100% * ${aspectRatio})`,
+              }}
+            />
+          </div>
+        </div>
+      )}
       <label
         htmlFor="fileinput"
         className="self-center px-3 py-2 mt-2 font-medium leading-6 text-white bg-indigo-600 rounded-lg"
@@ -114,4 +135,4 @@ function AnimalImage({ onImageProcess, onImageUpload, onLoadingComplete, setLoad
 
 export default AnimalImage;
 
-// Path: animal-detector-react\src\components\AnimalImage.js
+// Path: components\AnimalImage.js

@@ -40,4 +40,4 @@ const resizeImage = (blob, maxWidth, maxHeight, quality) => {
 
 export default resizeImage;
 
-// Path: animal-detector-react\src\components\utils\resizeImage.js
+// Path: components\utils\resizeImage.js
