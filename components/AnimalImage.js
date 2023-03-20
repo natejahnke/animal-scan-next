@@ -27,13 +27,20 @@ function AnimalImage({
   };
 
   const handleFileSelect = async (evt) => {
+    const file = evt.target.files[0];
+
+    // Check if a file was selected
+    if (!file) {
+      return;
+    }
+
+    setImageSrc(URL.createObjectURL(file));
+    setLoading(true);
+    setErrorMessage("");
     setLoading(true);
     onImageProcess("", "", "");
     onImageUpload();
     setOpacity(0);
-
-    const files = evt.target.files;
-    const file = files[0];
 
     const img = new window.Image();
     img.onload = () => {
@@ -137,7 +144,7 @@ function AnimalImage({
       )}
       <label
         htmlFor="fileinput"
-        className="self-center px-4 py-2 mt-4 font-medium leading-6 text-white bg-indigo-600 rounded-lg cursor-pointer hover:bg-indigo-500 transition-colors duration-300"
+        className="self-center px-4 py-2 mt-4 font-medium leading-6 text-yellow bg-dark-blue-3 rounded-lg cursor-pointer hover:bg-dark-blue-2 transition-colors duration-300"
         style={{ zIndex: 2 }}
       >
         Upload Image
@@ -149,9 +156,30 @@ function AnimalImage({
         className="hidden"
         onChange={handleFileSelect}
       />
-      {/* ... (existing code) */}
       {errorMessage && (
-        <div className="text-red-600 text-center mt-4">{errorMessage}</div>
+        <div className="mt-4 p-4 rounded-md bg-dark-blue-2 text-yellow border border-dark-blue-1 shadow-md">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg
+                className="w-5 h-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v4a1 1 0 102 0V5zm-1 9a1 1 0 100-2 1 1 0 000 2z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </div>
+            <div className="ml-3">
+              <h3 className="text-sm font-medium">Error</h3>
+              <div className="mt-2 text-sm">{errorMessage}</div>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
