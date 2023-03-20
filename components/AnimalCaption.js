@@ -53,12 +53,15 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
 
   return (
     // Render the animal caption component
-    <div className="px-2 bg-white rounded-lg shadow-lg">
+    <div className="bg-dark-blue-2 rounded-lg shadow-lg">
       <>
-        <h3 id="animalName" className="text-2xl font-bold text-center">
+        <h3
+          id="animalName"
+          className="text-2xl font-bold text-center text-light-yellow"
+        >
           {animalName}
         </h3>
-        <h3 id="AIresponse" className="mb-2 text-lg">
+        <h3 id="AIresponse" className="mb-2 text-lg text-yellow">
           <span className="text-xs font-bold">Azure Computer Vision: </span>
           {fullCaption}
         </h3>

@@ -27,13 +27,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
+    <div className="min-h-screen bg-gradient-to-br from-dark-blue-1 via-dark-blue-2 to-dark-blue-3">
       <main className="px-4 py-6">
-        <div className="mx-auto bg-white rounded-xl shadow-lg p-4 sm:p-6 sm:w-[90%] md:w-[80%] lg:w-[75%] xl:w-[70%] 2xl:w-[60%]">
-          <h1 className="text-3xl font-bold text-center text-purple-800 mb-1">
+        <div className="mx-auto bg-dark-blue-2 text-light-yellow rounded-xl shadow-lg py-4 px-1 sm:p-6 sm:w-[90%] md:w-[80%] lg:w-[75%] xl:w-[70%] 2xl:w-[60%]">
+          <h1 className="text-3xl font-bold text-center mb-1">
             Nate's AI Animal Detector
           </h1>
-          <h3 className="text-center text-gray-700 mb-4">
+          <h3 className="text-center text-yellow mb-4">
             Upload an image of an animal to find out its name with Nate's AI
             Animal Detector
           </h3>
@@ -49,7 +49,7 @@ function App() {
             <div className="lg:w-1/2">
               {loading ? (
                 <div className="flex items-center justify-center h-24">
-                  <BarLoader color="#f11946" />
+                  <BarLoader color="#ffc300" />
                 </div>
               ) : (
                 imageUploaded && (
@@ -64,12 +64,12 @@ function App() {
           </div>
         </div>
       </main>
-      <footer className="fixed bottom-0 left-0 w-full py-4 text-center text-gray-300 bg-gray-900">
+      <footer className="fixed bottom-0 left-0 w-full py-4 text-center text-yellow bg-dark-blue-2">
         <p>
           🔍
           <a
             href="https://github.com/natejahnke/animal-scan-next"
-            className="hover:text-white transition-colors duration-300"
+            className="hover:text-light-yellow transition-colors duration-300"
           >
             https://github.com/natejahnke/animal-scan-next🔍
           </a>
