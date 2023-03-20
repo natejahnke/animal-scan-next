@@ -4,7 +4,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   const { messages } = req.body;
 
   try {
@@ -19,5 +19,3 @@ module.exports = async (req, res) => {
     res.status(500).send("Error in OpenAI API call");
   }
 };
-
-// Path: pages\api\openai.js
