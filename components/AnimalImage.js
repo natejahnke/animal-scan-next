@@ -61,7 +61,7 @@ function AnimalImage({
       }
     }
 
-    const prompt = `Give me the common scientific names species, habitat, diet, physical characteristics, behavior, and conservation status for a ${animalName}. Format the response data under the following headings: Scientific Name, Habitat, Diet, Physical Characteristics, Behavior, and Conservation Status.`;
+    const prompt = `Give me the common scientific names species, habitat, diet, physical characteristics(include typical size and weight and largest on record), behavior, and conservation status for a ${animalName}. Format the response data under the following headings: Scientific Name, Habitat, Diet, Physical Characteristics, Behavior, and Conservation Status. Highlight key info, Keep concise.`;
     const animalInfo = animalName
       ? await fetchAnimalInfo(animalName, prompt)
       : "";
