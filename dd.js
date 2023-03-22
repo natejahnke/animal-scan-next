@@ -1,8 +1,5 @@
-import React from "react";
-
-const AnimalInfoItem = ({ title, content, icon }) => {
-  return (
-    // <div className="w-full mx-auto">
+<div className="grid md:grid-cols-2 gap-2">
+  <div className="w-full max-w-md-mx-auto">
     <div className="transition bg-white border border-gray-200 shadow-sm group rounded-xl hover:shadow-md">
       <div className="p-4 md:p-5">
         <div className="flex">
@@ -19,10 +16,5 @@ const AnimalInfoItem = ({ title, content, icon }) => {
         </div>
       </div>
     </div>
-    // </div>
-  );
-};
-
-export default AnimalInfoItem;
-
-// Path: components\AnimalInfoItem.js
+  </div>
+</div>;

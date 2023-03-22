@@ -80,7 +80,7 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
           {fullCaption}
         </h3>
         {/* Render the structured animal information using the AnimalInfoItem component */}
-        <div className="grid md:grid-cols-2 gap-2">
+        <div className="grid lg:grid-cols-2 auto-rows-auto gap-4">
           {Object.entries(structuredInfo).map(([key, value], index) => (
             <AnimalInfoItem
               key={key}
