@@ -1,9 +1,26 @@
 import React, { useEffect, useState } from "react";
 import AnimalInfoItem from "./AnimalInfoItem";
+import {
+  EarthSharp,
+  RestaurantSharp,
+  SearchSharp,
+  FitnessSharp,
+  AlertCircleSharp,
+  PawSharp,
+} from "react-ionicons";
 
 function AnimalCaption({ animalName, fullCaption, animalInfo }) {
   // Define a state variable to store structured animal information
   const [structuredInfo, setStructuredInfo] = useState({});
+
+  const icons = [
+    <SearchSharp color="#00000" />,
+    <EarthSharp color="#00000" />,
+    <RestaurantSharp color="#00000" />,
+    <PawSharp color="#00000" />,
+    <FitnessSharp color="#00000" />,
+    <AlertCircleSharp color="#00000" />,
+  ];
 
   // Use the useEffect hook to parse and structure the animal information when it changes
   useEffect(() => {
@@ -53,22 +70,24 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
 
   return (
     // Render the animal caption component
-    <div className="bg-dark-blue-2 rounded-lg shadow-lg">
+    <div className="">
       <>
-        <h3
-          id="animalName"
-          className="text-2xl font-bold text-center text-light-yellow"
-        >
+        <h3 id="animalName" className="mt-3 text-2xl font-bold text-gray-800">
           {animalName}
         </h3>
-        <h3 id="AIresponse" className="mb-2 text-lg text-yellow">
+        <h3 id="AIresponse" className="mb-2 text-lg text-gray-800">
           <span className="text-xs font-bold">Azure Computer Vision: </span>
           {fullCaption}
         </h3>
         {/* Render the structured animal information using the AnimalInfoItem component */}
-        <div>
-          {Object.entries(structuredInfo).map(([key, value]) => (
-            <AnimalInfoItem key={key} title={key} content={value} />
+        <div className="grid md:grid-cols-2 gap-2">
+          {Object.entries(structuredInfo).map(([key, value], index) => (
+            <AnimalInfoItem
+              key={key}
+              title={key}
+              content={value}
+              icon={icons[index]}
+            />
           ))}
         </div>
       </>

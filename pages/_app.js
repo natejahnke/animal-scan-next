@@ -28,17 +28,17 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-blue-1 via-dark-blue-2 to-dark-blue-3">
-      <main className="px-4 py-6">
-        <div className="mx-auto bg-dark-blue-2 text-light-yellow rounded-xl shadow-lg py-4 px-1 sm:p-6 sm:w-[90%] md:w-[80%] lg:w-[75%] xl:w-[70%] 2xl:w-[60%]">
+      <main className="m-4">
+        <div className="mx-auto bg-slate-50 text-gray-800 rounded-xl shadow-lg py-4 px-1 sm:p-6">
           <h1 className="text-3xl font-bold text-center mb-1">
             Nate's AI Animal Detector
           </h1>
-          <h3 className="text-center text-yellow mb-4">
+          <h3 className="text-center text-gray-800">
             Upload an image of an animal to find out its name with Nate's AI
             Animal Detector
           </h3>
-          <div className="flex flex-col lg:flex-row lg:justify-between lg:space-x-12">
-            <div className="lg:w-1/2 mb-4 lg:mb-0">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="col-span-1 lg:mb-0">
               <AnimalImage
                 onImageProcess={handleImageProcess}
                 onImageUpload={handleImageUpload}
@@ -46,9 +46,9 @@ function App() {
                 setLoading={setLoading}
               />
             </div>
-            <div className="lg:w-1/2">
+            <div className="lg:col-span-2">
               {loading ? (
-                <div className="flex items-center justify-center h-24">
+                <div className="flex items-center self-center justify-center h-24">
                   <BarLoader color="#ffc300" />
                 </div>
               ) : (

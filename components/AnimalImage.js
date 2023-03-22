@@ -120,35 +120,35 @@ function AnimalImage({
   const aspectRatio = dimensions.width / dimensions.height;
 
   return (
-    <div className="flex flex-col justify-center mt-4">
+    <div className="flex flex-col mt-4 justify-center">
       {imageSrc && (
-        <div className="w-full h-[25vh] max-h-[30vh] mx-auto relative">
-          <div className="absolute inset-0 overflow-hidden rounded-lg">
-            <Image
-              src={imageSrc}
-              alt="Uploaded Animal"
-              width={dimensions.width}
-              height={dimensions.height}
-              className={`object-contain transition-opacity duration-1000 ${
-                opacity === 1 ? "opacity-100" : "opacity-0"
-              } absolute inset-0 m-auto`}
-              style={{
-                maxHeight: "100%",
-                maxWidth: "100%",
-                height: "auto",
-                width: `calc(100% * ${aspectRatio})`,
-              }}
-            />
-          </div>
+        <div className="h-[30vh] sm:h-[50vh]">
+          <Image
+            src={imageSrc}
+            alt="Uploaded Animal"
+            width={dimensions.width}
+            height={dimensions.height}
+            className={`mx-auto object-cover transition-opacity duration-1000 ${
+              opacity === 1 ? "opacity-100" : "opacity-0"
+            } rounded-lg`}
+            style={{
+              maxHeight: "100%",
+              maxWidth: "100%",
+              height: "auto",
+              width: `calc(100% * ${aspectRatio})`,
+            }}
+          />
         </div>
       )}
-      <label
-        htmlFor="fileinput"
-        className="self-center px-4 py-2 mt-4 font-medium leading-6 text-yellow bg-dark-blue-3 rounded-lg cursor-pointer hover:bg-dark-blue-2 transition-colors duration-300"
-        style={{ zIndex: 2 }}
+      <button
+        type="button"
+        data-te-ripple-init
+        data-te-ripple-color="light"
+        className="inline-block rounded bg-[#3B71CA] px-6 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] self-center mt-4"
+        onClick={() => document.getElementById("fileinput").click()}
       >
         Upload Image
-      </label>
+      </button>
       <input
         type="file"
         id="fileinput"
