@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Head from "next/head";
 import AnimalCaption from "../components/AnimalCaption";
 import AnimalImage from "../components/AnimalImage";
 import { BarLoader } from "react-spinners";
@@ -29,6 +30,15 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-dark-blue-1 via-dark-blue-2 to-dark-blue-3">
+      <Head>
+        <title>Nate's AI Animal Detector</title>
+        <meta
+          name="description"
+          content="Upload an image of an animal to find out its name with Nate's AI Animal Detector"
+        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta charSet="utf-8" />
+      </Head>
       <main className="m-4">
         <div className="mx-auto bg-slate-50 text-gray-800 rounded-xl shadow-lg py-4 px-1 sm:p-6">
           <h1 className="text-3xl font-bold text-center mb-1">
@@ -45,6 +55,7 @@ function App() {
                 onImageUpload={handleImageUpload}
                 onLoadingComplete={handleLoadingComplete}
                 setLoading={setLoading}
+                alt={`${animalName} image`}
               />
             </div>
             <div className="lg:col-span-2">

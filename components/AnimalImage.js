@@ -9,6 +9,7 @@ function AnimalImage({
   onImageUpload,
   onLoadingComplete,
   setLoading,
+  alt,
 }) {
   const [opacity, setOpacity] = useState(0);
   const [animalDetails, setAnimalDetails] = useState("");
@@ -125,7 +126,7 @@ function AnimalImage({
         <div className="h-[30vh] sm:h-[50vh]">
           <Image
             src={imageSrc}
-            alt="Uploaded Animal"
+            alt={alt}
             width={dimensions.width}
             height={dimensions.height}
             className={`mx-auto object-cover transition-opacity duration-1000 ${
