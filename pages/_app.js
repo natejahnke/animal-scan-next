@@ -3,6 +3,7 @@ import AnimalCaption from "../components/AnimalCaption";
 import AnimalImage from "../components/AnimalImage";
 import { BarLoader } from "react-spinners";
 import "../styles/globals.css";
+import { LogoGithub, LogoReact } from "react-ionicons";
 
 function App() {
   const [animalName, setAnimalName] = useState("");
@@ -64,16 +65,18 @@ function App() {
           </div>
         </div>
       </main>
-      <footer className="fixed bottom-0 left-0 w-full py-4 text-center text-yellow bg-dark-blue-2">
-        <p>
-          🔍
-          <a
-            href="https://github.com/natejahnke/animal-scan-next"
-            className="hover:text-light-yellow transition-colors duration-300"
-          >
-            https://github.com/natejahnke/animal-scan-next🔍
-          </a>
-        </p>
+      <footer className="flex justify-center text-xs lg:fixed bottom-0 left-0 w-full py-4 text-center text-grey-800">
+        <a
+          href="https://github.com/natejahnke/animal-scan-next"
+          className="hover:text-[#3B71CA] transition-colors duration-300 ml-1 flex"
+        >
+          <LogoGithub className="" />
+          Github
+        </a>
+        <span className="text-gray-600 flex ml-2">
+          Built with <LogoReact />
+          Next.js, Tailwind CSS, OpenAI, and Azure Computer Vision
+        </span>
       </footer>
     </div>
   );
