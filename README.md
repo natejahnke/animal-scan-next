@@ -26,7 +26,7 @@ Animal Scan Next is a web application that allows users to upload an image of an
 
 ## Demo
 
-A live demo of the app is available at [https://animal-scan-next.vercel.app/](https://animal-scan-next.vercel.app/).
+A live demo of the app is available at [https://nates-animal-scanner.netlify.app/](https://nates-animal-scanner.netlify.app/).
 
 ## Usage
 
