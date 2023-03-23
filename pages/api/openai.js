@@ -19,3 +19,5 @@ export default async (req, res) => {
     res.status(500).send("Error in OpenAI API call");
   }
 };
+
+// Path: pages\api\openai.js

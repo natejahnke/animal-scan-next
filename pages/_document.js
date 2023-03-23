@@ -31,3 +31,5 @@ class MyDocument extends Document {
 }
 
 export default MyDocument;
+
+// Path: pages\_document.js
