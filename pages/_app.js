@@ -52,11 +52,10 @@ function App() {
       <main className="flex-grow m-2 sm:m-4">
         <div className="px-1 mx-auto text-gray-800 shadow-lg bg-slate-50 rounded-xl sm:p-1">
           <h1 className="mb-1 text-3xl font-bold text-center">
-            Nate's AI Animal Detector
+            AI Wildlife Explorer
           </h1>
-          <h3 className="text-center text-gray-800">
-            Upload an image of an animal to find out its name with Nate's AI
-            Animal Detector
+          <h3 className="mb-2 text-center text-gray-800">
+          Explore the world of animals with AI Wildlife Explorer - upload an image and unveil fascinating insights about common species!
           </h3>
           <div className="flex justify-center">
             <button
@@ -100,23 +99,23 @@ function App() {
         </div>
       </main>
       <footer className="border-t border-gray-200 bg-slate-50">
-  <div className="container px-4 py-4 mx-auto">
-    <div className="flex justify-center space-x-6 text-gray-800">
-      <a
-        href="https://github.com/natejahnke/animal-scan-next"
-        className="hover:text-[#3B71CA] transition-colors duration-300 flex items-center space-x-1"
-      >
-        <LogoGithub className="" />
-        <span>Github</span>
-      </a>
-      <span className="flex space-x-1 text-gray-600">
-        Built with
-        <LogoReact className="w-4 h-4" />
-        <span>Next.js, Tailwind CSS, OpenAI, and Azure Computer Vision</span>
-      </span>
-    </div>
-  </div>
-</footer>
+        <div className="container px-4 py-4 mx-auto">
+          <div className="flex justify-center space-x-6 text-gray-800">
+            <a
+              href="https://github.com/natejahnke/animal-scan-next"
+              className="hover:text-[#3B71CA] transition-colors duration-300 flex items-center space-x-1"
+            >
+              <LogoGithub className="" />
+              <span>Github</span>
+            </a>
+          <span className="flex space-x-1 text-gray-600">
+            Built with
+          <LogoReact className="w-4 h-4" />
+          <span>Next.js, Tailwind CSS, OpenAI, and Azure Computer Vision</span>
+          </span>
+        </div>
+      </div>
+    </footer>
     </div>
   );
 }
