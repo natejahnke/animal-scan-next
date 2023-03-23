@@ -2,7 +2,7 @@
 
 Animal Scan Next is a web application that allows users to upload an image of an animal and receive information about the animal in the image. The app uses Azure Computer Vision API to identify the animal and OpenAI API to fetch relevant information.
 
-![Animal Scan Next Demo](demo.png?raw=true)
+![Animal Scan Next Demo](https://github.com/natejahnke/animal-scan-next/raw/main/demo.png)
 
 ## Table of Contents
 
