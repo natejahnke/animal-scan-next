@@ -6,13 +6,16 @@ import { BarLoader } from "react-spinners";
 import "../styles/globals.css";
 import { CloudUploadSharp, LogoGithub, LogoReact } from "react-ionicons";
 
+// Main App component
 function App() {
+  // Declare state variables
   const [animalName, setAnimalName] = useState("");
   const [fullCaption, setFullCaption] = useState("");
   const [animalInfo, setAnimalInfo] = useState("");
   const [imageUploaded, setImageUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  // Function to update state variables when image processing is complete
   const handleImageProcess = (name, caption, info) => {
     setAnimalName(name);
     setFullCaption(caption);
@@ -20,20 +23,23 @@ function App() {
     setImageUploaded(true);
   };
 
+  // Function to set imageUploaded state variable to true
   const handleImageUpload = () => {
     setImageUploaded(true);
   };
 
+  // Function to set loading state variable to false
   const handleLoadingComplete = () => {
     setLoading(false);
   };
 
+  // Function to trigger a click event on the file input element
   const handleButtonClick = () => {
     document.getElementById("fileinput").click();
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-dark-blue-1 via-dark-blue-2 to-dark-blue-3">
+    <div className="flex flex-col min-h-screen">
       <Head>
         <title>Nate's AI Animal Detector</title>
         <meta
@@ -43,9 +49,9 @@ function App() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
       </Head>
-      <main className="sm:m-4 m-2">
-        <div className="mx-auto bg-slate-50 text-gray-800 rounded-xl shadow-lg px-1 sm:p-1">
-          <h1 className="text-3xl font-bold text-center mb-1">
+      <main className="flex-grow m-2 sm:m-4">
+        <div className="px-1 mx-auto text-gray-800 shadow-lg bg-slate-50 rounded-xl sm:p-1">
+          <h1 className="mb-1 text-3xl font-bold text-center">
             Nate's AI Animal Detector
           </h1>
           <h3 className="text-center text-gray-800">
@@ -64,7 +70,7 @@ function App() {
               Upload Image
             </button>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
             <div className="col-span-1 lg:mb-0">
               <AnimalImage
                 onImageProcess={handleImageProcess}
@@ -93,19 +99,24 @@ function App() {
           </div>
         </div>
       </main>
-      <footer className="flex justify-center text-xs bottom-0 left-0 w-full py-4 text-center text-grey-800">
-        <a
-          href="https://github.com/natejahnke/animal-scan-next"
-          className="hover:text-[#3B71CA] transition-colors duration-300 ml-1 flex"
-        >
-          <LogoGithub className="" />
-          Github
-        </a>
-        <span className="text-gray-600 flex ml-2">
-          Built with <LogoReact />
-          Next.js, Tailwind CSS, OpenAI, and Azure Computer Vision
-        </span>
-      </footer>
+      <footer className="border-t border-gray-200 bg-slate-50">
+  <div className="container px-4 py-4 mx-auto">
+    <div className="flex justify-center space-x-6 text-gray-800">
+      <a
+        href="https://github.com/natejahnke/animal-scan-next"
+        className="hover:text-[#3B71CA] transition-colors duration-300 flex items-center space-x-1"
+      >
+        <LogoGithub className="" />
+        <span>Github</span>
+      </a>
+      <span className="flex space-x-1 text-gray-600">
+        Built with
+        <LogoReact className="w-4 h-4" />
+        <span>Next.js, Tailwind CSS, OpenAI, and Azure Computer Vision</span>
+      </span>
+    </div>
+  </div>
+</footer>
     </div>
   );
 }
