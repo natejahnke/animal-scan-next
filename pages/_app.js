@@ -43,7 +43,7 @@ function App() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
       </Head>
-      <main className="m-4">
+      <main className="sm:m-4 m-2">
         <div className="mx-auto bg-slate-50 text-gray-800 rounded-xl shadow-lg px-1 sm:p-1">
           <h1 className="text-3xl font-bold text-center mb-1">
             Nate's AI Animal Detector
