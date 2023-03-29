@@ -3,6 +3,7 @@ import { animals } from "../public/animals";
 import resizeImage from "./utils/resizeImage";
 import fetchAnimalInfo from "./utils/fetchAnimalInfo";
 import Image from "next/image";
+import { db, storage } from "../firebase";
 
 function AnimalImage({
   onImageProcess,
@@ -40,7 +41,7 @@ function AnimalImage({
     setLoading(true);
     setErrorMessage("");
     setLoading(true);
-    onImageProcess("", "", "");
+    onImageProcess("", "", "", "");
     onImageUpload();
     setOpacity(0);
 
@@ -53,8 +54,7 @@ function AnimalImage({
     img.src = URL.createObjectURL(file);
 
     const fullCaption = await processImage(file);
-
-    let animalName = "";
+    let animalName;
     for (const name of animals) {
       const regex = new RegExp(`\\b${name}(s)?\\b`, "i");
       if (regex.test(fullCaption)) {
@@ -68,11 +68,31 @@ function AnimalImage({
       ? await fetchAnimalInfo(animalName, prompt)
       : "";
     if (animalName) {
-      setAnimalDetails(animalDetails); // You can use this information as needed
+      setAnimalDetails(animalInfo);
     }
-
-    onImageProcess(animalName, fullCaption, animalInfo);
+    const uploadedImageURL = await uploadImage(file, animalName);
+    onImageProcess(
+      animalName,
+      fullCaption,
+      animalInfo,
+      imageSrc,
+      file,
+      uploadedImageURL
+    );
     setLoading(false);
+  };
+
+  const uploadImage = async (blobImage, animalName) => {
+    if (!animalName) return null;
+
+    const storageRef = storage.ref();
+    const animalImageRef = storageRef.child(
+      `animal_images/${animalName}/${blobImage.name}`
+    );
+    const snapshot = await animalImageRef.put(blobImage);
+
+    const downloadURL = await snapshot.ref.getDownloadURL();
+    return downloadURL;
   };
 
   const processImage = async (blobImage) => {
@@ -122,7 +142,7 @@ function AnimalImage({
   const aspectRatio = dimensions.width / dimensions.height;
 
   return (
-    <div className="flex flex-col mt-4 justify-center">
+    <div className="flex flex-col justify-center mt-4">
       {imageSrc && (
         <div className="h-[30vh] sm:h-[50vh]">
           <Image
@@ -150,7 +170,7 @@ function AnimalImage({
         onChange={handleFileSelect}
       />
       {errorMessage && (
-        <div className="mt-4 p-4 rounded-md bg-dark-blue-2 text-yellow border border-dark-blue-1 shadow-md">
+        <div className="p-4 mt-4 border rounded-md shadow-md bg-dark-blue-2 text-yellow border-dark-blue-1">
           <div className="flex">
             <div className="flex-shrink-0">
               <svg
