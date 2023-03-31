@@ -32,3 +32,5 @@ export async function getServerSideProps() {
 }
 
 export default BrowseWrapper;
+
+// Path: components\BrowseWrapper.js
