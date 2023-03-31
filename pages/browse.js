@@ -1,8 +1,13 @@
 import React from "react";
 import BrowseWrapper, { getServerSideProps } from "../components/BrowseWrapper";
 
-const BrowsePage = ({ animals }) => {
-  return <BrowseWrapper animals={animals} />;
+const BrowsePage = ({ animals, user }) => {
+  return (
+    <BrowseWrapper
+      animals={animals}
+      user={user}
+    />
+  );
 };
 
 export { getServerSideProps };

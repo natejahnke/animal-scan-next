@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { auth, provider } from "../firebase";
+import { HomeSharp } from "react-ionicons";
 
-const Navbar = () => {
+const Navbar = ({ user, setUser }) => {
   const [active, setActive] = useState(false);
-  const [user, setUser] = useState(null);
 
   const handleClick = () => {
     setActive(!active);
@@ -44,7 +44,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div className="navbar bg-base-100">
+    <div className="text-white navbar bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
           <label
@@ -84,6 +84,10 @@ const Navbar = () => {
           href={"/"}
           className="text-xl normal-case btn btn-ghost"
         >
+          <HomeSharp
+            color="#FFFFFF"
+            className="mr-1"
+          />
           AIWild
         </Link>
       </div>
@@ -103,6 +107,7 @@ const Navbar = () => {
               d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
             />
           </svg>
+          <span className="text-xs">Add Animal</span>
         </button>
         <div className="dropdown dropdown-end">
           {user ? (

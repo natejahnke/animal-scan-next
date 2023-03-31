@@ -1,13 +1,65 @@
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 import { db } from "../firebase";
 import AnimalGrid from "./AnimalGrid";
+import { PawSharp } from "react-ionicons";
 
-const BrowseWrapper = ({ animals }) => {
+const BrowseWrapper = ({ animals, user }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  const handleFilter = (filter) => {
+    setFilter(filter);
+  };
+
+  const filteredAnimals =
+    filter === "user"
+      ? animals.filter((animal) => animal.username === user?.displayName)
+      : animals;
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="px-4 py-8">
-        <h1 className="mb-6 text-3xl font-bold text-center">Browse Animals</h1>
-        <AnimalGrid animals={animals} />
+        <h1 className="mb-6 text-3xl font-bold text-center text-gray-800">
+          <Link href={"/browse"}>
+            <span className="flex items-center justify-center">
+              <PawSharp />
+              <span className="ml-2">Browse Animals</span>
+            </span>
+          </Link>
+        </h1>
+        <div className="flex justify-center mb-6 space-x-4">
+          <button
+            onClick={() => handleFilter("all")}
+            className={`${
+              filter === "all" ? "bg-blue-500" : "bg-white"
+            } px-4 py-2 text-gray-800 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200`}
+          >
+            All Animals
+          </button>
+          <button
+            onClick={() => handleFilter("user")}
+            className={`${
+              filter === "user" ? "bg-blue-500" : "bg-white"
+            } px-4 py-2 text-gray-700 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200`}
+            disabled={!user}
+          >
+            My Animals
+          </button>
+        </div>
+        <div className="flex justify-center mb-6">
+          <input
+            type="text"
+            placeholder="Search animals..."
+            className="px-4 py-2 w-[300px] text-gray-700 bg-white border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <AnimalGrid
+          animals={filteredAnimals}
+          searchTerm={searchTerm}
+        />
       </div>
     </div>
   );

@@ -9,7 +9,7 @@ import { db, storage } from "../firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 
-export default function Home() {
+export default function Home({ user }) {
   // Declare state variables
   const [animalName, setAnimalName] = useState("");
   const [fullCaption, setFullCaption] = useState("");
@@ -64,6 +64,9 @@ export default function Home() {
         caption,
         info,
         imageURL: uploadedImageURL,
+        username: user.displayName,
+        userId: user.uid,
+        email: user.email,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(), // For Firestore
       };
       try {
@@ -93,7 +96,11 @@ export default function Home() {
 
   // Function to trigger a click event on the file input element
   const handleButtonClick = () => {
-    document.getElementById("fileinput").click();
+    if (user) {
+      document.getElementById("fileinput").click();
+    } else {
+      alert("Please sign in to upload an image.");
+    }
   };
 
   return (
@@ -104,7 +111,10 @@ export default function Home() {
           name="description"
           content="Upload an image of an animal to find out its name with Nate's AI Animal Detector"
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
         <meta charSet="utf-8" />
       </Head>
       <main className="flex-grow m-2 sm:m-4">
@@ -121,10 +131,17 @@ export default function Home() {
               type="button"
               data-te-ripple-init
               data-te-ripple-color="light"
-              className="flex rounded bg-[#3B71CA] px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] self-center"
+              className={`flex rounded px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out ${
+                user
+                  ? "bg-[#3B71CA] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
               onClick={handleButtonClick}
             >
-              <CloudUploadSharp color="#ffffff" className="pr-2" />
+              <CloudUploadSharp
+                color="#ffffff"
+                className="pr-2"
+              />
               Upload Image
             </button>
           </div>
@@ -137,6 +154,7 @@ export default function Home() {
                 setLoading={setLoading}
                 alt={`${animalName} image`}
                 onButtonClick={handleButtonClick}
+                user={user}
               />
             </div>
             <div className="lg:col-span-2">
@@ -155,7 +173,10 @@ export default function Home() {
               )}
             </div>
           </div>
-          <BrowseWrapper animals={animals} />
+          <BrowseWrapper
+            animals={animals}
+            user={user}
+          />
         </div>
       </main>
       <footer className="border-t border-gray-200 bg-slate-50">

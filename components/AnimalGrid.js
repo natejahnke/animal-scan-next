@@ -1,10 +1,14 @@
 import React from "react";
 import Image from "next/image";
 
-const AnimalGrid = ({ animals }) => {
+const AnimalGrid = ({ animals, searchTerm }) => {
+  const filteredAnimals = animals.filter((animal) =>
+    animal.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="grid gap-6 mx-auto max-w-7xl w-[300px] sm:grid-cols-2 sm:w-auto md:grid-cols-3 lg:grid-cols-4">
-      {animals.map((animal, index) => (
+      {filteredAnimals.map((animal, index) => (
         <div
           key={animal.id}
           className="relative max-w-[300px] bg-white shadow-md"
