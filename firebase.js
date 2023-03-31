@@ -1,6 +1,8 @@
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
+import "firebase/compat/auth";
+import { GoogleAuthProvider } from "firebase/compat/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,5 +19,11 @@ if (!firebase.apps.length) {
 
 const db = firebase.firestore();
 const storage = firebase.storage();
+const auth = firebase.auth();
+const provider = new firebase.auth.GoogleAuthProvider();
 
-export { db, storage };
+provider.setCustomParameters({ prompt: "select_account" });
+
+export { db, storage, auth, provider };
+
+// Path: firebase.js

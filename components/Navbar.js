@@ -1,13 +1,47 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { auth, provider } from "../firebase";
 
 const Navbar = () => {
   const [active, setActive] = useState(false);
+  const [user, setUser] = useState(null);
 
   const handleClick = () => {
     setActive(!active);
   };
+
+  const signIn = async () => {
+    try {
+      const result = await auth.signInWithPopup(provider);
+      setUser(result.user);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      await auth.signOut();
+      setUser(null);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <div className="navbar bg-base-100">
@@ -71,25 +105,36 @@ const Navbar = () => {
           </svg>
         </button>
         <div className="dropdown dropdown-end">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img src="" />
-            </div>
-          </label>
-          <ul
-            tabIndex={0}
-            className="p-2 mt-3 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <a className="justify-between">Profile</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
+          {user ? (
+            <>
+              <label
+                tabIndex={0}
+                className="btn btn-ghost btn-circle avatar"
+              >
+                <div className="w-10 rounded-full">
+                  <img src={user.photoURL} />
+                </div>
+              </label>
+              <ul
+                tabIndex={0}
+                className="p-2 mt-3 shadow menu menu-compact dropdown-content bg-base-100 rounded-box w-52"
+              >
+                {/* <li>
+                  <a className="justify-between" btn-disabled	>Profile</a>
+                </li> */}
+                <li>
+                  <a onClick={signOut}>Logout</a>
+                </li>
+              </ul>
+            </>
+          ) : (
+            <button
+              onClick={signIn}
+              className="btn btn-ghost"
+            >
+              Sign in with Google
+            </button>
+          )}
         </div>
       </div>
     </div>
