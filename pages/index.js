@@ -127,23 +127,47 @@ export default function Home({ user }) {
             image and unveil fascinating insights about common species!
           </h3>
           <div className="flex justify-center">
-            <button
-              type="button"
-              data-te-ripple-init
-              data-te-ripple-color="light"
-              className={`flex rounded px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out ${
-                user
-                  ? "bg-[#3B71CA] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
-              onClick={handleButtonClick}
-            >
-              <CloudUploadSharp
-                color="#ffffff"
-                className="pr-2"
-              />
-              Upload Image
-            </button>
+            <div className="flex flex-col items-center">
+              {" "}
+              <button
+                disabled={!user}
+                type="button"
+                data-te-ripple-init
+                data-te-ripple-color="light"
+                className={`mb-2 flex rounded px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out ${
+                  user
+                    ? "bg-[#3B71CA] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+                onClick={handleButtonClick}
+              >
+                <CloudUploadSharp
+                  color="#ffffff"
+                  className="pr-2"
+                />
+                Upload Image
+              </button>
+              {!user && (
+                <div className="flex items-center justify-center shadow-lg alert alert-error">
+                  <div>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="flex-shrink-0 w-6 h-6 stroke-current"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>Sign In with Google! to upload an Animal Image</span>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
             <div className="col-span-1 lg:mb-0">
