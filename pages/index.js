@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import AnimalCaption from "../components/AnimalCaption";
 import AnimalImage from "../components/AnimalImage";
+import BrowseWrapper from "../components/BrowseWrapper";
 import { BarLoader } from "react-spinners";
 import { CloudUploadSharp, LogoGithub, LogoReact } from "react-ionicons";
 import { db, storage } from "../firebase";
@@ -16,6 +17,24 @@ export default function Home() {
   const [imageUploaded, setImageUploaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const [imageURL, setImageURL] = useState("");
+  const [animals, setAnimals] = useState([]);
+
+  useEffect(() => {
+    const fetchAnimals = async () => {
+      const animalsSnapshot = await db.collection("animals").get();
+      const animalsData = animalsSnapshot.docs.map((doc) => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          ...data,
+          timestamp: data.timestamp.toDate().toISOString(),
+        };
+      });
+      setAnimals(animalsData);
+    };
+
+    fetchAnimals();
+  }, []);
 
   // Function to update state variables when image processing is complete
   const handleImageProcess = async (
@@ -136,6 +155,7 @@ export default function Home() {
               )}
             </div>
           </div>
+          <BrowseWrapper animals={animals} />
         </div>
       </main>
       <footer className="border-t border-gray-200 bg-slate-50">
