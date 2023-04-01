@@ -3,7 +3,7 @@ import Head from "next/head";
 import AnimalCaption from "../components/AnimalCaption";
 import AnimalImage from "../components/AnimalImage";
 import BrowseWrapper from "../components/BrowseWrapper";
-import { BarLoader } from "react-spinners";
+import { RiseLoader } from "react-spinners";
 import { CloudUploadSharp, LogoGithub, LogoReact } from "react-ionicons";
 import { db, storage } from "../firebase";
 import firebase from "firebase/compat/app";
@@ -111,10 +111,7 @@ export default function Home({ user }) {
           name="description"
           content="Upload an image of an animal to find out its name with Nate's AI Animal Detector"
         />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
       </Head>
       <main className="flex-grow m-2 sm:m-4">
@@ -141,10 +138,7 @@ export default function Home({ user }) {
                 }`}
                 onClick={handleButtonClick}
               >
-                <CloudUploadSharp
-                  color="#ffffff"
-                  className="pr-2"
-                />
+                <CloudUploadSharp color="#ffffff" className="pr-2" />
                 Upload Image
               </button>
               {!user && (
@@ -183,8 +177,8 @@ export default function Home({ user }) {
             </div>
             <div className="lg:col-span-2">
               {loading ? (
-                <div className="flex items-center self-center justify-center h-24">
-                  <BarLoader color="#ffc300" />
+                <div className="fixed top-0 left-0 w-full h-full bg-opacity-50 bg-gray-500 flex items-center justify-center z-50">
+                  <RiseLoader color="#3B71CA" />
                 </div>
               ) : (
                 imageUploaded && (
@@ -197,10 +191,7 @@ export default function Home({ user }) {
               )}
             </div>
           </div>
-          <BrowseWrapper
-            animals={animals}
-            user={user}
-          />
+          <BrowseWrapper animals={animals} user={user} />
         </div>
       </main>
       <footer className="border-t border-gray-200 bg-slate-50">
