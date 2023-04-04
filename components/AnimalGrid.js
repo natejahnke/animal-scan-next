@@ -1,10 +1,28 @@
 import React from "react";
 import Image from "next/image";
+import { db } from "../firebase";
 
-const AnimalGrid = ({ animals, searchTerm }) => {
+const AnimalGrid = ({
+  animals,
+  searchTerm,
+  uploadedAnimals,
+  user,
+  removeAnimal,
+}) => {
+  const combinedAnimals = [...animals, ...uploadedAnimals];
   const filteredAnimals = animals.filter((animal) =>
     animal.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const handleDelete = async (animalId, removeAnimal) => {
+    try {
+      await db.collection("animals").doc(animalId).delete();
+      console.log("Animal deleted with ID:", animalId);
+      removeAnimal(animalId);
+    } catch (error) {
+      console.error("Error deleting animal:", error);
+    }
+  };
 
   return (
     <div className="grid gap-6 mx-auto max-w-7xl w-[300px] sm:grid-cols-2 sm:w-auto md:grid-cols-3 lg:grid-cols-4">
@@ -28,6 +46,14 @@ const AnimalGrid = ({ animals, searchTerm }) => {
           <div className="absolute bottom-0 left-0 w-full py-1 text-lg font-semibold text-center text-white bg-black rounded-lg bg-opacity-70">
             {animal.name}
           </div>
+          {user && animal.username === user.displayName && (
+            <button
+              onClick={() => handleDelete(animal.id, removeAnimal)}
+              className="absolute top-0 right-0 p-1 m-1 text-white bg-red-500 rounded-full"
+            >
+              &times;
+            </button>
+          )}
         </div>
       ))}
     </div>

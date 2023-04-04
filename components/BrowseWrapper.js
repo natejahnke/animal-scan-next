@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { db } from "../firebase";
 import AnimalGrid from "./AnimalGrid";
@@ -7,17 +7,26 @@ import { PawSharp } from "react-ionicons";
 const BrowseWrapper = ({ animals, user }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
+  const [uploadedAnimals, setUploadedAnimals] = useState([]);
+  const [filteredAnimals, setFilteredAnimals] = useState(animals);
 
   const handleFilter = (filter) => {
     setFilter(filter);
   };
 
-  const filteredAnimals =
-    filter === "user"
-      ? animals.filter((animal) => animal.username === user?.displayName)
-      : animals;
+  useEffect(() => {
+    setFilteredAnimals(
+      filter === "user"
+        ? animals.filter((animal) => animal.username === user?.displayName)
+        : animals
+    );
+  }, [filter, animals, user]);
 
-  console.log(filteredAnimals);
+  const removeAnimal = (animalId) => {
+    setFilteredAnimals(
+      filteredAnimals.filter((animal) => animal.id !== animalId)
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -66,6 +75,9 @@ const BrowseWrapper = ({ animals, user }) => {
         <AnimalGrid
           animals={filteredAnimals}
           searchTerm={searchTerm}
+          uploadedAnimals={uploadedAnimals}
+          removeAnimal={removeAnimal}
+          user={user}
         />
       </div>
     </div>

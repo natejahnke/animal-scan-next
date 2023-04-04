@@ -3,7 +3,7 @@ import Head from "next/head";
 import AnimalCaption from "../components/AnimalCaption";
 import AnimalImage from "../components/AnimalImage";
 import BrowseWrapper from "../components/BrowseWrapper";
-import { BarLoader } from "react-spinners";
+import { RiseLoader } from "react-spinners";
 import { CloudUploadSharp, LogoGithub, LogoReact } from "react-ionicons";
 import { db, storage } from "../firebase";
 import firebase from "firebase/compat/app";
@@ -18,6 +18,8 @@ export default function Home({ user }) {
   const [loading, setLoading] = useState(false);
   const [imageURL, setImageURL] = useState("");
   const [animals, setAnimals] = useState([]);
+  const [showSignInMessage, setShowSignInMessage] = useState(false);
+  const [uploadedAnimals, setUploadedAnimals] = useState([]);
 
   useEffect(() => {
     const fetchAnimals = async () => {
@@ -53,31 +55,24 @@ export default function Home({ user }) {
     setImageURL(imageURL);
 
     if (name && caption && info && imageFile) {
-      // Upload image to Firebase Storage
-      // const storageRef = storage.ref();
-      // const imageRef = storageRef.child(`images/${imageFile.name}`);
-      // await imageRef.put(imageFile);
-      // const imageUrl = await imageRef.getDownloadURL();
-
       const dataToSave = {
         name,
         caption,
         info,
         imageURL: uploadedImageURL,
-        username: user.displayName,
-        userId: user.uid,
-        email: user.email,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(), // For Firestore
+        username: user ? user.displayName : "",
+        userId: user ? user.uid : "",
+        email: user ? user.email : "",
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       };
+
       try {
-        // Realtime Database
-        // const newAnimalRef = db.ref("animals").push();
-        // await newAnimalRef.set(dataToSave);
-
-        // Firestore
-        await db.collection("animals").add(dataToSave);
-
-        console.log("Data saved to the database");
+        if (user) {
+          await db.collection("animals").add(dataToSave);
+          console.log("Data saved to the database");
+        } else {
+          setShowSignInMessage(true);
+        }
       } catch (error) {
         console.error("Error saving data to the database:", error);
       }
@@ -96,11 +91,7 @@ export default function Home({ user }) {
 
   // Function to trigger a click event on the file input element
   const handleButtonClick = () => {
-    if (user) {
-      document.getElementById("fileinput").click();
-    } else {
-      alert("Please sign in to upload an image.");
-    }
+    document.getElementById("fileinput").click();
   };
 
   return (
@@ -130,15 +121,12 @@ export default function Home({ user }) {
             <div className="flex flex-col items-center">
               {" "}
               <button
-                disabled={!user}
                 type="button"
                 data-te-ripple-init
                 data-te-ripple-color="light"
-                className={`mb-2 flex rounded px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out ${
-                  user
-                    ? "bg-[#3B71CA] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
-                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                className={
+                  "mb-2 flex rounded px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out bg-[#3B71CA] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+                }
                 onClick={handleButtonClick}
               >
                 <CloudUploadSharp
@@ -147,24 +135,15 @@ export default function Home({ user }) {
                 />
                 Upload Image
               </button>
-              {!user && (
-                <div className="flex items-center justify-center shadow-lg alert alert-error">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="flex-shrink-0 w-6 h-6 stroke-current"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>Sign In with Google! to upload an Animal Image</span>
-                  </div>
+              {!user && showSignInMessage && (
+                <div className="mt-2 text-sm text-red-500">
+                  Please sign in to save images to the database.
+                </div>
+              )}
+              {user && (
+                <div className="mt-2 text-sm text-green-500">
+                  You are signed in. Images you upload will be saved to the
+                  database.
                 </div>
               )}
             </div>
@@ -179,12 +158,14 @@ export default function Home({ user }) {
                 alt={`${animalName} image`}
                 onButtonClick={handleButtonClick}
                 user={user}
+                uploadedAnimals={uploadedAnimals}
+                setUploadedAnimals={setUploadedAnimals}
               />
             </div>
             <div className="lg:col-span-2">
               {loading ? (
-                <div className="flex items-center self-center justify-center h-24">
-                  <BarLoader color="#ffc300" />
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+                  <RiseLoader color="#3B71CA" />
                 </div>
               ) : (
                 imageUploaded && (
@@ -200,6 +181,7 @@ export default function Home({ user }) {
           <BrowseWrapper
             animals={animals}
             user={user}
+            uploadedAnimals={uploadedAnimals}
           />
         </div>
       </main>

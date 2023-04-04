@@ -13,12 +13,14 @@ function AnimalImage({
   alt,
   onButtonClick,
   user,
+  setUploadedAnimals,
 }) {
   const [opacity, setOpacity] = useState(0);
   const [animalDetails, setAnimalDetails] = useState("");
   const [imageSrc, setImageSrc] = useState(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [errorMessage, setErrorMessage] = useState("");
+  const fileInputRef = useRef();
 
   const isAnimal = (caption) => {
     for (const name of animals) {
@@ -30,7 +32,16 @@ function AnimalImage({
     return false;
   };
 
+  const handleButtonClick = () => {
+    if (user) {
+      fileInputRef.current.click();
+    } else {
+      onButtonClick();
+    }
+  };
+
   const handleFileSelect = async (evt) => {
+    console.log("handleFileSelect called");
     const file = evt.target.files[0];
 
     // Check if a file was selected
@@ -55,6 +66,7 @@ function AnimalImage({
     img.src = URL.createObjectURL(file);
 
     const fullCaption = await processImage(file);
+    console.log("processImage returned:", fullCaption);
     let animalName;
     for (const name of animals) {
       const regex = new RegExp(`\\b${name}(s)?\\b`, "i");
@@ -81,6 +93,15 @@ function AnimalImage({
       uploadedImageURL
     );
     setLoading(false);
+    setUploadedAnimals((prevAnimals) => [
+      ...prevAnimals,
+      {
+        animalName,
+        fullCaption,
+        animalInfo,
+        imageSrc,
+      },
+    ]);
   };
 
   const uploadImage = async (blobImage, animalName) => {
@@ -97,6 +118,7 @@ function AnimalImage({
   };
 
   const processImage = async (blobImage) => {
+    console.log("processImage called");
     const subscriptionKey = process.env.NEXT_PUBLIC_SUBSCRIPTION_KEY;
     const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
     const uriBase = endpoint + "vision/v3.2/analyze";
@@ -169,7 +191,8 @@ function AnimalImage({
         accept="image/*"
         className="hidden"
         onChange={handleFileSelect}
-        disabled={!user}
+        // disabled={!user}
+        ref={fileInputRef}
       />
 
       {errorMessage && (
