@@ -29,7 +29,9 @@ export default function Home({ user }) {
         return {
           id: doc.id,
           ...data,
-          timestamp: data.timestamp.toDate().toISOString(),
+          timestamp: data.timestamp
+            ? data.timestamp.toDate().toISOString()
+            : null,
         };
       });
       setAnimals(animalsData);
@@ -102,10 +104,7 @@ export default function Home({ user }) {
           name="description"
           content="Upload an image of an animal to find out its name with Nate's AI Animal Detector"
         />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
       </Head>
       <main className="flex-grow m-2 sm:m-4">
@@ -129,10 +128,7 @@ export default function Home({ user }) {
                 }
                 onClick={handleButtonClick}
               >
-                <CloudUploadSharp
-                  color="#ffffff"
-                  className="pr-2"
-                />
+                <CloudUploadSharp color="#ffffff" className="pr-2" />
                 Upload Image
               </button>
               {!user && showSignInMessage && (

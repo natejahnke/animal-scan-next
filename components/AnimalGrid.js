@@ -10,8 +10,10 @@ const AnimalGrid = ({
   removeAnimal,
 }) => {
   const combinedAnimals = [...animals, ...uploadedAnimals];
-  const filteredAnimals = animals.filter((animal) =>
-    animal.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredAnimals = combinedAnimals.filter(
+    (animal) =>
+      animal.name &&
+      animal.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleDelete = async (animalId, removeAnimal) => {
@@ -39,11 +41,11 @@ const AnimalGrid = ({
               placeholder="blur"
               blurDataURL={animal.imageURL}
               sizes="(max-width: 640px) 300px, (max-width: 768px) 50vw, (max-width: 1024px) 33.33vw, 25vw"
-              className={`mx-auto object-cover rounded-lg transition duration-500 ease-in-out transform hover:scale-110`}
+              className={`mx-auto object-cover rounded-md transition duration-500 ease-in-out transform hover:scale-110`}
               priority={index < 2}
             />
           </div>
-          <div className="absolute bottom-0 left-0 w-full py-1 text-lg font-semibold text-center text-white bg-black rounded-lg bg-opacity-70">
+          <div className="absolute bottom-0 left-0 w-full py-1 text-lg font-semibold text-center text-white bg-black rounded-md bg-opacity-70">
             {animal.name}
           </div>
           {user && animal.username === user.displayName && (

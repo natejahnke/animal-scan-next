@@ -76,10 +76,24 @@ function AnimalImage({
       }
     }
 
-    const prompt = `Give me the common scientific names species, habitat, diet, physical characteristics(include typical size and weight and largest on record), behavior, and conservation status for a ${animalName}. Format the response data under the following headings: Scientific Name, Habitat, Diet, Physical Characteristics, Behavior, and Conservation Status. Highlight key info, Keep concise.`;
-    const animalInfo = animalName
-      ? await fetchAnimalInfo(animalName, prompt)
-      : "";
+    // Check if the animal's information already exists in the Firebase database
+    const animalSnapshot = await db.collection("animals").doc(animalName).get();
+
+    let animalInfo;
+    if (animalSnapshot.exists) {
+      // The animal information already exists in Firebase
+      animalInfo = animalSnapshot.data().info;
+    } else {
+      // The animal information doesn't exist in Firebase
+      // Fetch the information from the OpenAI API
+      const prompt = `Give me the common scientific names species, habitat, diet, physical characteristics(include typical size and weight and largest on record), behavior, and conservation status for a ${animalName}. Format the response data under the following headings: Scientific Name, Habitat, Diet, Physical Characteristics, Behavior, and Conservation Status. Highlight key info, Keep concise.`;
+      animalInfo = await fetchAnimalInfo(animalName, prompt);
+
+      // Save the information to Firebase
+      await db.collection("animals").doc(animalName).set({
+        info: animalInfo,
+      });
+    }
     if (animalName) {
       setAnimalDetails(animalInfo);
     }
@@ -175,7 +189,7 @@ function AnimalImage({
             height={dimensions.height}
             className={`mx-auto object-cover transition-opacity duration-1000 ${
               opacity === 1 ? "opacity-100" : "opacity-0"
-            } rounded-lg`}
+            } rounded-md`}
             style={{
               maxHeight: "100%",
               maxWidth: "100%",

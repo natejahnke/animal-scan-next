@@ -91,7 +91,7 @@ export async function getServerSideProps() {
     return {
       id: doc.id,
       ...data,
-      timestamp: data.timestamp.toDate().toISOString(),
+      timestamp: data.timestamp ? data.timestamp.toDate().toISOString() : null,
     };
   });
   console.log("Animals fetched in getServerSideProps:", animals);
