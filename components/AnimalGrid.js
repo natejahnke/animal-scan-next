@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { db } from "../firebase";
+import { XCircleIcon } from "@heroicons/react/24/solid";
 
 const AnimalGrid = ({
   animals,
@@ -9,7 +10,10 @@ const AnimalGrid = ({
   user,
   removeAnimal,
 }) => {
+  const [deletedAnimals, setDeletedAnimals] = useState([]);
   const combinedAnimals = [...animals, ...uploadedAnimals];
+  const [deletedAnimalStyles, setDeletedAnimalStyles] = useState({});
+
   const filteredAnimals = combinedAnimals.filter(
     (animal) =>
       animal.name &&
@@ -18,9 +22,20 @@ const AnimalGrid = ({
 
   const handleDelete = async (animalId, removeAnimal) => {
     try {
+      setDeletedAnimalStyles((prevStyles) => ({
+        ...prevStyles,
+        [animalId]: "scale-0",
+      }));
+      setTimeout(() => {
+        removeAnimal(animalId);
+        setDeletedAnimalStyles((prevStyles) => {
+          const updatedStyles = { ...prevStyles };
+          delete updatedStyles[animalId];
+          return updatedStyles;
+        });
+      }, 500);
       await db.collection("animals").doc(animalId).delete();
       console.log("Animal deleted with ID:", animalId);
-      removeAnimal(animalId);
     } catch (error) {
       console.error("Error deleting animal:", error);
     }
@@ -31,9 +46,11 @@ const AnimalGrid = ({
       {filteredAnimals.map((animal, index) => (
         <div
           key={animal.id}
-          className="relative max-w-[300px] bg-white shadow-md"
+          className={`relative max-w-[300px] bg-white shadow-md transition-all duration-500 ease-in-out ${
+            deletedAnimalStyles[animal.id] || ""
+          }`}
         >
-          <div className="relative w-full h-0 pb-[66.666%]">
+          <div className="relative group overflow-hidden w-full h-full rounded-md pb-[66.666%]">
             <Image
               src={animal.imageURL}
               alt={animal.name}
@@ -41,7 +58,7 @@ const AnimalGrid = ({
               placeholder="blur"
               blurDataURL={animal.imageURL}
               sizes="(max-width: 640px) 300px, (max-width: 768px) 50vw, (max-width: 1024px) 33.33vw, 25vw"
-              className={`mx-auto object-cover rounded-md transition duration-500 ease-in-out transform hover:scale-110`}
+              className={`mx-auto object-cover w-full h-full transition-all duration-300 ease-in-out transform group-hover:scale-110 group-hover:shadow-2xl`}
               priority={index < 2}
             />
           </div>
@@ -51,9 +68,9 @@ const AnimalGrid = ({
           {user && animal.username === user.displayName && (
             <button
               onClick={() => handleDelete(animal.id, removeAnimal)}
-              className="absolute top-0 right-0 p-1 m-1 text-white bg-red-500 rounded-full"
+              className="absolute top-0 right-0 m-1 p-1"
             >
-              &times;
+              <XCircleIcon className="h-6 w-6 text-white hover:text-slate-800 transition duration-300 ease-in-out shadow-md transform active:scale-90 active:rotate-12" />
             </button>
           )}
         </div>
