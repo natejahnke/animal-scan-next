@@ -72,17 +72,23 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
     // Render the animal caption component
     <div className="">
       <>
-        <div className="flex">
-          <h3 id="animalName" className="text-3xl font-bold text-gray-800 mr-8">
+        <div className="flex flex-col items-start md:flex-row md:items-center md:justify-center">
+          <h3
+            id="animalName"
+            className="mb-2 mr-8 text-3xl font-bold text-gray-800 md:mb-0"
+          >
             {animalName}
           </h3>
-          <h3 id="AIresponse" className="text-lg text-gray-800">
+          <h3
+            id="AIresponse"
+            className="text-lg text-gray-800"
+          >
             <span className="text-sm font-bold">AI Response: </span>
             {fullCaption}
           </h3>
         </div>
         {/* Render the structured animal information using the AnimalInfoItem component */}
-        <div className="grid lg:grid-cols-2 auto-rows-auto gap-4">
+        <div className="grid gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3 auto-rows-auto">
           {Object.entries(structuredInfo).map(([key, value], index) => (
             <AnimalInfoItem
               key={key}
