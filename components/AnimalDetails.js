@@ -32,10 +32,19 @@ const AnimalDetails = () => {
   return (
     <div className="flex flex-col items-center w-full px-4 py-6 mx-auto space-y-4 max-w-7xl">
       <div className="w-auto h-48 overflow-hidden rounded-md md:h-64 lg:h-96">
-        <img
+        {isLoading && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <BeatLoader color="#3B71CA" />
+          </div>
+        )}
+        <Image
           src={animal.imageURL}
           alt={animal.name}
-          className="object-contain w-full h-full"
+          width="0"
+          height="0"
+          sizes="100vw"
+          className="object-contain w-auto h-full"
+          onLoadingComplete={() => setIsLoading(false)}
         />
       </div>
       <AnimalCaption

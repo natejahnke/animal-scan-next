@@ -4,4 +4,9 @@ module.exports = {
     domains: ["firebasestorage.googleapis.com"],
     minimumCacheTTL: 31536000,
   },
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
+  },
 };
