@@ -9,9 +9,9 @@ const AnimalPage = () => {
         href="/"
         className="text-blue-600 hover:text-blue-800"
       >
-        <button className="gap-1 btn btn-outline">
+        <button className="flex gap-1 bg-[#3B71CA] text-white hover:bg-white hover:text-[#3B71CA] hover:border-[#3B71CA] border border-transparent px-4 py-2 rounded transition duration-300 active:bg-[#3B71CA] active:text-white active:border-transparent focus:outline-none">
           <ArrowLeftIcon className="w-6 h-6" />
-          Button
+          Back
         </button>
       </Link>
       {/* <h1 className="mb-4 text-2xl font-bold">Animal Details</h1> */}
