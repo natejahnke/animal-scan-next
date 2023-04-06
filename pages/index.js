@@ -56,28 +56,36 @@ export default function Home({ user }) {
     setImageUploaded(true);
     setImageURL(imageURL);
 
-    if (name && caption && info && imageFile) {
-      const dataToSave = {
-        name,
-        caption,
-        info,
-        imageURL: uploadedImageURL,
-        username: user ? user.displayName : "",
-        userId: user ? user.uid : "",
-        email: user ? user.email : "",
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      };
+    const dataToSave = {
+      name,
+      caption,
+      info,
+      imageURL: uploadedImageURL,
+      username: user ? user.displayName : "",
+      userId: user ? user.uid : "",
+      email: user ? user.email : "",
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    };
 
-      try {
-        if (user) {
-          await db.collection("animals").add(dataToSave);
-          console.log("Data saved to the database");
-        } else {
-          setShowSignInMessage(true);
-        }
-      } catch (error) {
-        console.error("Error saving data to the database:", error);
+    try {
+      if (user) {
+        const docRef = await db.collection("animals").add(dataToSave);
+        console.log("Data saved to the database");
+
+        // Update the animals state with the new animal
+        setAnimals([
+          ...animals,
+          {
+            id: docRef.id,
+            ...dataToSave,
+            timestamp: new Date().toISOString(),
+          },
+        ]);
+      } else {
+        setShowSignInMessage(true);
       }
+    } catch (error) {
+      console.error("Error saving data to the database:", error);
     }
   };
 
@@ -176,8 +184,9 @@ export default function Home({ user }) {
           </div>
           <BrowseWrapper
             animals={animals}
+            setAnimals={setAnimals}
             user={user}
-            uploadedAnimals={uploadedAnimals}
+            // uploadedAnimals={uploadedAnimals}
           />
         </div>
       </main>

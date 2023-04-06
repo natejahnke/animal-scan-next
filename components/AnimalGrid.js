@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { db } from "../firebase";
 import { XCircleIcon } from "@heroicons/react/24/solid";
@@ -6,19 +6,24 @@ import { XCircleIcon } from "@heroicons/react/24/solid";
 const AnimalGrid = ({
   animals,
   searchTerm,
-  uploadedAnimals,
+  // uploadedAnimals,
   user,
   removeAnimal,
 }) => {
   const [deletedAnimals, setDeletedAnimals] = useState([]);
-  const combinedAnimals = [...animals, ...uploadedAnimals];
+  const combinedAnimals = [...animals];
   const [deletedAnimalStyles, setDeletedAnimalStyles] = useState({});
+  const [filteredAnimals, setFilteredAnimals] = useState([]);
 
-  const filteredAnimals = combinedAnimals.filter(
-    (animal) =>
-      animal.name &&
-      animal.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const newFilteredAnimals = animals.filter(
+      (animal) =>
+        animal.name &&
+        !deletedAnimals.includes(animal.id) &&
+        animal.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredAnimals(newFilteredAnimals);
+  }, [animals, searchTerm, deletedAnimals]);
 
   const handleDelete = async (animalId, removeAnimal) => {
     try {
