@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import BrowseWrapper from "../components/BrowseWrapper";
 import { db } from "../firebase";
+import { motion } from "framer-motion";
+import {
+  pageVariants,
+  pageTransition,
+} from "../components/utils/pageTransitions";
 
 const BrowsePage = ({ animals, user }) => {
   const [animalList, setAnimalList] = useState(animals);
@@ -10,11 +15,19 @@ const BrowsePage = ({ animals, user }) => {
   };
 
   return (
-    <BrowseWrapper
-      animals={animals}
-      setAnimals={updateAnimals}
-      user={user}
-    />
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      <BrowseWrapper
+        animals={animals}
+        setAnimals={updateAnimals}
+        user={user}
+      />
+    </motion.div>
   );
 };
 

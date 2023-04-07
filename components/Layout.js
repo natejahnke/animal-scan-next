@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const Layout = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -10,6 +11,7 @@ const Layout = ({ children }) => {
         setUser={setUser}
       />
       {React.cloneElement(children, { user })}
+      <Footer />
     </div>
   );
 };

@@ -3,10 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { db } from "../firebase";
 import { XCircleIcon } from "@heroicons/react/24/solid";
+import { motion } from "framer-motion";
 
 const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
   const [filteredAnimals, setFilteredAnimals] = useState([]);
   const [deletedAnimalStyles, setDeletedAnimalStyles] = useState({});
+  const [deletedAnimalIds, setDeletedAnimalIds] = useState([]);
 
   useEffect(() => {
     const newFilteredAnimals = animals.filter(
@@ -17,37 +19,79 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
     setFilteredAnimals(newFilteredAnimals);
   }, [animals, searchTerm]);
 
+  // const handleDelete = async (event, animalId) => {
+  //   event.preventDefault();
+  //   event.stopPropagation();
+  //   try {
+  //     // Update the UI state with scale-0 to animate the deletion
+  //     setDeletedAnimalStyles((prevStyles) => ({
+  //       ...prevStyles,
+  //       [animalId]: "scale-0",
+  //     }));
+
+  //     // Wait for the animation to complete before actually deleting the animal and updating the state
+  //     setTimeout(async () => {
+  //       // Delete the animal document from Firestore
+  //       await db.collection("animals").doc(animalId).delete();
+  //       console.log("Animal deleted with ID:", animalId);
+
+  //       // Update the filteredAnimals state after the deletion
+  //       setFilteredAnimals((prevAnimals) =>
+  //         prevAnimals.filter((animal) => animal.id !== animalId)
+  //       );
+
+  //       // Remove the animal's styles from the deletedAnimalStyles state
+  //       setDeletedAnimalStyles((prevStyles) => {
+  //         const updatedStyles = { ...prevStyles };
+  //         delete updatedStyles[animalId];
+  //         return updatedStyles;
+  //       });
+  //     }, 500);
+  //   } catch (error) {
+  //     console.error("Error deleting animal:", error);
+  //   }
+  // };
+
   const handleDelete = async (event, animalId) => {
     event.preventDefault();
     event.stopPropagation();
+    setDeletedAnimalIds((prevDeletedAnimalIds) => [
+      ...prevDeletedAnimalIds,
+      animalId,
+    ]);
+  };
+
+  const handleAnimationComplete = async (animalId) => {
     try {
-      // Update the UI state with scale-0 to animate the deletion
-      setDeletedAnimalStyles((prevStyles) => ({
-        ...prevStyles,
-        [animalId]: "scale-0",
-      }));
+      // Delete the animal document from Firestore
+      await db.collection("animals").doc(animalId).delete();
+      console.log("Animal deleted with ID:", animalId);
 
-      // Wait for the animation to complete before actually deleting the animal and updating the state
-      setTimeout(async () => {
-        // Delete the animal document from Firestore
-        await db.collection("animals").doc(animalId).delete();
-        console.log("Animal deleted with ID:", animalId);
-
-        // Update the filteredAnimals state after the deletion
-        setFilteredAnimals((prevAnimals) =>
-          prevAnimals.filter((animal) => animal.id !== animalId)
-        );
-
-        // Remove the animal's styles from the deletedAnimalStyles state
-        setDeletedAnimalStyles((prevStyles) => {
-          const updatedStyles = { ...prevStyles };
-          delete updatedStyles[animalId];
-          return updatedStyles;
-        });
-      }, 500);
+      // Update the filteredAnimals state after the deletion
+      setFilteredAnimals((prevAnimals) =>
+        prevAnimals.filter((animal) => animal.id !== animalId)
+      );
     } catch (error) {
       console.error("Error deleting animal:", error);
     }
+  };
+
+  const deleteAnimation = {
+    initial: {
+      scale: 1,
+      borderRadius: "0%",
+    },
+    animate: {
+      scale: 0,
+      borderRadius: "50%",
+      transitionEnd: {
+        opacity: 0,
+      },
+    },
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut",
+    },
   };
 
   return (
@@ -57,9 +101,14 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
           href={`/animal?id=${animal.id}`}
           key={animal.id}
         >
-          <div
+          <motion.div
             key={animal.id}
             className="relative max-w-[300px] bg-white shadow-md"
+            initial={deletedAnimalIds.includes(animal.id) ? false : "initial"}
+            animate={deletedAnimalIds.includes(animal.id) ? "animate" : false}
+            transition={{ ...deleteAnimation.transition }}
+            onAnimationComplete={() => handleAnimationComplete(animal.id)}
+            variants={deleteAnimation}
           >
             <div className="relative group overflow-hidden w-full h-full rounded-md pb-[66.666%]">
               <Image
@@ -84,7 +133,7 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
                 <XCircleIcon className="w-6 h-6 text-white transition duration-300 ease-in-out transform shadow-md hover:text-slate-800 active:scale-90 active:rotate-12" />
               </button>
             )}
-          </div>
+          </motion.div>
         </Link>
       ))}
     </div>
