@@ -4,44 +4,47 @@ import Image from "next/image";
 import { db } from "../firebase";
 import { XCircleIcon } from "@heroicons/react/24/solid";
 
-const AnimalGrid = ({
-  animals,
-  searchTerm,
-  // uploadedAnimals,
-  user,
-  removeAnimal,
-}) => {
-  const [deletedAnimals, setDeletedAnimals] = useState([]);
-  const combinedAnimals = [...animals];
-  const [deletedAnimalStyles, setDeletedAnimalStyles] = useState({});
+const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
   const [filteredAnimals, setFilteredAnimals] = useState([]);
+  const [deletedAnimalStyles, setDeletedAnimalStyles] = useState({});
 
   useEffect(() => {
     const newFilteredAnimals = animals.filter(
       (animal) =>
         animal.name &&
-        !deletedAnimals.includes(animal.id) &&
         animal.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredAnimals(newFilteredAnimals);
-  }, [animals, searchTerm, deletedAnimals]);
+  }, [animals, searchTerm]);
 
-  const handleDelete = async (animalId, removeAnimal) => {
+  const handleDelete = async (event, animalId) => {
+    event.preventDefault();
+    event.stopPropagation();
     try {
+      // Update the UI state with scale-0 to animate the deletion
       setDeletedAnimalStyles((prevStyles) => ({
         ...prevStyles,
         [animalId]: "scale-0",
       }));
-      setTimeout(() => {
-        removeAnimal(animalId);
+
+      // Wait for the animation to complete before actually deleting the animal and updating the state
+      setTimeout(async () => {
+        // Delete the animal document from Firestore
+        await db.collection("animals").doc(animalId).delete();
+        console.log("Animal deleted with ID:", animalId);
+
+        // Update the filteredAnimals state after the deletion
+        setFilteredAnimals((prevAnimals) =>
+          prevAnimals.filter((animal) => animal.id !== animalId)
+        );
+
+        // Remove the animal's styles from the deletedAnimalStyles state
         setDeletedAnimalStyles((prevStyles) => {
           const updatedStyles = { ...prevStyles };
           delete updatedStyles[animalId];
           return updatedStyles;
         });
       }, 500);
-      await db.collection("animals").doc(animalId).delete();
-      console.log("Animal deleted with ID:", animalId);
     } catch (error) {
       console.error("Error deleting animal:", error);
     }
@@ -56,9 +59,7 @@ const AnimalGrid = ({
         >
           <div
             key={animal.id}
-            className={`relative max-w-[300px] bg-white shadow-md transition-all duration-500 ease-in-out ${
-              deletedAnimalStyles[animal.id] || ""
-            }`}
+            className="relative max-w-[300px] bg-white shadow-md"
           >
             <div className="relative group overflow-hidden w-full h-full rounded-md pb-[66.666%]">
               <Image
@@ -77,7 +78,7 @@ const AnimalGrid = ({
             </div>
             {user && animal.username === user.displayName && (
               <button
-                onClick={() => handleDelete(animal.id, removeAnimal)}
+                onClick={(event) => handleDelete(event, animal.id)}
                 className="absolute top-0 right-0 p-1 m-1"
               >
                 <XCircleIcon className="w-6 h-6 text-white transition duration-300 ease-in-out transform shadow-md hover:text-slate-800 active:scale-90 active:rotate-12" />

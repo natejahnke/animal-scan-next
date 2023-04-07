@@ -53,7 +53,7 @@ function AnimalImage({
     setLoading(true);
     setErrorMessage("");
     setLoading(true);
-    onImageProcess("", "", "", "");
+    onImageProcess("", "", "", "", "", "");
     onImageUpload();
     setOpacity(0);
 

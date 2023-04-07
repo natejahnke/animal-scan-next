@@ -82,24 +82,6 @@ const BrowseWrapper = ({ animals, setAnimals, user }) => {
   );
 };
 
-export async function getServerSideProps() {
-  const animalsSnapshot = await db.collection("animals").get();
-  const animals = animalsSnapshot.docs.map((doc) => {
-    const data = doc.data();
-    return {
-      id: doc.id,
-      ...data,
-      timestamp: data.timestamp ? data.timestamp.toDate().toISOString() : null,
-    };
-  });
-  console.log("Animals fetched in getServerSideProps:", animals);
-  return {
-    props: {
-      animals,
-    },
-  };
-}
-
 export default BrowseWrapper;
 
 // Path: components\BrowseWrapper.js
