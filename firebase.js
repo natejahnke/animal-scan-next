@@ -1,4 +1,5 @@
 import firebase from "firebase/compat/app";
+import "firebase/compat/performance";
 import "firebase/compat/firestore";
 import "firebase/compat/storage";
 import "firebase/compat/auth";
@@ -15,6 +16,8 @@ const firebaseConfig = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
+} else {
+  firebase.app();
 }
 
 const db = firebase.firestore();
@@ -25,5 +28,13 @@ const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 
 export { db, storage, auth, provider };
+
+export function initializePerformanceMonitoring() {
+  if (typeof window !== "undefined") {
+    // Import performance monitoring only on the client-side
+    require("firebase/performance");
+    return firebase.performance();
+  }
+}
 
 // Path: firebase.js

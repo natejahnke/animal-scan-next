@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { db } from "../firebase";
+// import { db } from "../firebase";
 import AnimalGrid from "./AnimalGrid";
 import { PawSharp } from "react-ionicons";
 

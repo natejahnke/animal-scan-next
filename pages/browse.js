@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BrowseWrapper from "../components/BrowseWrapper";
-import { db } from "../firebase";
+import { db, initializePerformanceMonitoring } from "../firebase";
 import { motion } from "framer-motion";
 import {
   pageVariants,
@@ -14,6 +14,11 @@ const BrowsePage = ({ animals, user }) => {
     setAnimalList(newAnimals);
   };
 
+  useEffect(() => {
+    // Initialize performance monitoring on the client-side
+    initializePerformanceMonitoring();
+  }, []);
+
   return (
     <motion.div
       initial="initial"
@@ -23,7 +28,7 @@ const BrowsePage = ({ animals, user }) => {
       transition={pageTransition}
     >
       <BrowseWrapper
-        animals={animals}
+        animals={animalList}
         setAnimals={updateAnimals}
         user={user}
       />
@@ -31,7 +36,7 @@ const BrowsePage = ({ animals, user }) => {
   );
 };
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const animalsSnapshot = await db.collection("animals").get();
   const animals = animalsSnapshot.docs.map((doc) => {
     const data = doc.data();
@@ -41,11 +46,13 @@ export async function getServerSideProps() {
       timestamp: data.timestamp ? data.timestamp.toDate().toISOString() : null,
     };
   });
-  console.log("Animals fetched in getServerSideProps:", animals);
+
+  console.log("Animals fetched in getStaticProps:", animals);
   return {
     props: {
       animals,
     },
+    revalidate: 60, // Revalidate the data every 60 seconds
   };
 }
 

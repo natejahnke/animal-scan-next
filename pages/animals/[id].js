@@ -1,24 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 import Image from "next/image";
-import { db } from "../firebase";
-import AnimalCaption from "./AnimalCaption";
+import { db } from "../../firebase";
+import AnimalCaption from "../../components/AnimalCaption";
 
-const AnimalDetails = () => {
-  const router = useRouter();
-  const { id } = router.query;
-  const [animal, setAnimal] = useState(null);
-
-  useEffect(() => {
-    if (id) {
-      const fetchAnimal = async () => {
-        const animalSnapshot = await db.collection("animals").doc(id).get();
-        setAnimal({ id: animalSnapshot.id, ...animalSnapshot.data() });
-      };
-      fetchAnimal();
-    }
-  }, [id]);
-
+const AnimalDetails = ({ animal }) => {
   if (!animal) {
     return (
       <div className="flex items-center justify-center min-h-screen"></div>
@@ -46,4 +31,18 @@ const AnimalDetails = () => {
   );
 };
 
+export async function getServerSideProps(context) {
+  const { id } = context.query;
+  const animalSnapshot = await db.collection("animals").doc(id).get();
+  const animal = { id: animalSnapshot.id, ...animalSnapshot.data() };
+
+  return {
+    props: {
+      animal,
+    },
+  };
+}
+
 export default AnimalDetails;
+
+// Path: pages\animals\[id].js

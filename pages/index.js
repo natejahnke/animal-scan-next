@@ -5,7 +5,7 @@ import AnimalImage from "../components/AnimalImage";
 import BrowseWrapper from "../components/BrowseWrapper";
 import { RiseLoader } from "react-spinners";
 import { CloudUploadSharp } from "react-ionicons";
-import { db, storage } from "../firebase";
+import { db, storage, initializePerformanceMonitoring } from "../firebase";
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
 import { motion } from "framer-motion";
@@ -25,6 +25,11 @@ export default function Home({ user }) {
   const [animals, setAnimals] = useState([]);
   const [showSignInMessage, setShowSignInMessage] = useState(false);
   const [uploadedAnimals, setUploadedAnimals] = useState([]);
+
+  useEffect(() => {
+    // Initialize performance monitoring on the client-side
+    initializePerformanceMonitoring();
+  }, []);
 
   useEffect(() => {
     const fetchAnimals = async () => {
@@ -124,10 +129,7 @@ export default function Home({ user }) {
             name="description"
             content="Upload an image of an animal to find out its name with Nate's AI Animal Detector"
           />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-          />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta charSet="utf-8" />
         </Head>
         <main className="flex-grow m-2 sm:m-4">
@@ -151,10 +153,7 @@ export default function Home({ user }) {
                   }
                   onClick={handleButtonClick}
                 >
-                  <CloudUploadSharp
-                    color="#ffffff"
-                    className="pr-2"
-                  />
+                  <CloudUploadSharp color="#ffffff" className="pr-2" />
                   Upload Image
                 </button>
                 {!user && showSignInMessage && (

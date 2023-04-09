@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-const AnimalInfoItem = ({ title, content, icon }) => {
+const AnimalInfoItem = ({ title, content, icon, index }) => {
   return (
     <div className="transition bg-white border border-gray-200 shadow-sm group rounded-xl hover:shadow-md hover:bg-gray-100">
       <div className="p-4 md:p-6">

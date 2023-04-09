@@ -19,39 +19,6 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
     setFilteredAnimals(newFilteredAnimals);
   }, [animals, searchTerm]);
 
-  // const handleDelete = async (event, animalId) => {
-  //   event.preventDefault();
-  //   event.stopPropagation();
-  //   try {
-  //     // Update the UI state with scale-0 to animate the deletion
-  //     setDeletedAnimalStyles((prevStyles) => ({
-  //       ...prevStyles,
-  //       [animalId]: "scale-0",
-  //     }));
-
-  //     // Wait for the animation to complete before actually deleting the animal and updating the state
-  //     setTimeout(async () => {
-  //       // Delete the animal document from Firestore
-  //       await db.collection("animals").doc(animalId).delete();
-  //       console.log("Animal deleted with ID:", animalId);
-
-  //       // Update the filteredAnimals state after the deletion
-  //       setFilteredAnimals((prevAnimals) =>
-  //         prevAnimals.filter((animal) => animal.id !== animalId)
-  //       );
-
-  //       // Remove the animal's styles from the deletedAnimalStyles state
-  //       setDeletedAnimalStyles((prevStyles) => {
-  //         const updatedStyles = { ...prevStyles };
-  //         delete updatedStyles[animalId];
-  //         return updatedStyles;
-  //       });
-  //     }, 500);
-  //   } catch (error) {
-  //     console.error("Error deleting animal:", error);
-  //   }
-  // };
-
   const handleDelete = async (event, animalId) => {
     event.preventDefault();
     event.stopPropagation();
@@ -97,10 +64,7 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
   return (
     <div className="grid gap-6 mx-auto max-w-7xl w-[300px] sm:grid-cols-2 sm:w-auto md:grid-cols-3 lg:grid-cols-4">
       {filteredAnimals.map((animal, index) => (
-        <Link
-          href={`/animal?id=${animal.id}`}
-          key={animal.id}
-        >
+        <Link href={`/animal?id=${animal.id}`} key={animal.id}>
           <motion.div
             key={animal.id}
             className="relative max-w-[300px] bg-white shadow-md"

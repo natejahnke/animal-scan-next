@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import AnimalInfoItem from "./AnimalInfoItem";
 import {
   EarthSharp,
@@ -68,6 +69,20 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
     return parsedInfo;
   };
 
+  const listItemVariants = {
+    initial: {
+      y: -10,
+      opacity: 0,
+    },
+    show: (i) => ({
+      y: 0,
+      opacity: 1,
+      transition: {
+        delay: i * 0.1,
+      },
+    }),
+  };
+
   return (
     // Render the animal caption component
     <div className="">
@@ -79,10 +94,7 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
           >
             {animalName}
           </h3>
-          <h3
-            id="AIresponse"
-            className="text-lg text-gray-800"
-          >
+          <h3 id="AIresponse" className="text-lg text-gray-800">
             <span className="text-sm font-bold">AI Response: </span>
             {fullCaption}
           </h3>
@@ -95,6 +107,7 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
               title={key}
               content={value}
               icon={icons[index]}
+              index={index}
             />
           ))}
         </div>
