@@ -174,6 +174,7 @@ export const animals = [
   "Reindeer",
   "Rhinoceros",
   "Rook",
+  "Rooster",
   "Salamander",
   "Salmon",
   "Sand Dollar",

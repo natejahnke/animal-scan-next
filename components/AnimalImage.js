@@ -75,6 +75,8 @@ function AnimalImage({
         break;
       }
     }
+    console.log("Full caption:", fullCaption);
+    console.log("Animal name:", animalName);
 
     // Check if the animal's information already exists in the Firebase database
     const animalSnapshot = await db.collection("animals").doc(animalName).get();
@@ -131,20 +133,35 @@ function AnimalImage({
     return downloadURL;
   };
 
+  const blobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
   const processImage = async (blobImage) => {
     console.log("processImage called");
     const subscriptionKey = process.env.NEXT_PUBLIC_SUBSCRIPTION_KEY;
     const endpoint = process.env.NEXT_PUBLIC_ENDPOINT;
-    const uriBase = endpoint + "vision/v3.2/analyze";
+    const uriBase = endpoint + "computervision/imageanalysis:analyze";
 
     const params = {
-      visualFeatures: "Categories,Description,Color",
-      details: "",
+      features: "caption,read",
+      "model-version": "latest",
       language: "en",
+      "api-version": "2023-02-01-preview",
     };
 
     try {
       const resizedBlob = await resizeImage(blobImage, 1000, 1000, 0.7);
+      const base64Image = await blobToBase64(resizedBlob);
+      const requestBody = {
+        data: base64Image,
+      };
+
       const response = await fetch(
         uriBase + "?" + new URLSearchParams(params),
         {
@@ -155,10 +172,23 @@ function AnimalImage({
           },
           body: resizedBlob,
         }
-      );
-      const data = await response.json();
+      ).catch((error) => {
+        console.error("Fetch error:", error);
+        throw error;
+      });
 
-      const fullCaption = data?.description?.captions?.[0]?.text ?? "";
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Error response:", errorData);
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      const fullCaption = data?.captionResult?.text ?? "";
+      console.log("Caption data:", fullCaption);
+
       if (!isAnimal(fullCaption)) {
         setErrorMessage(
           "No animal detected. Please upload an image of an animal."
