@@ -64,7 +64,10 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
   return (
     <div className="grid gap-6 mx-auto max-w-7xl w-[300px] sm:grid-cols-2 sm:w-auto md:grid-cols-3 lg:grid-cols-4">
       {filteredAnimals.map((animal, index) => (
-        <Link href={`/animal?id=${animal.id}`} key={animal.id}>
+        <Link
+          href={`/animal?id=${animal.id}`}
+          key={animal.id}
+        >
           <motion.div
             key={animal.id}
             className="relative max-w-[300px] bg-white shadow-md"
@@ -86,7 +89,7 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
                 priority={index < 2}
               />
             </div>
-            <div className="absolute bottom-0 left-0 w-full py-1 text-lg font-semibold text-center text-white bg-black rounded-md bg-opacity-70">
+            <div className="absolute bottom-0 left-0 w-full py-1 text-lg font-semibold text-center bg-black rounded-md text-green-50 bg-opacity-70">
               {animal.name}
             </div>
             {user && animal.username === user.displayName && (
@@ -94,7 +97,7 @@ const AnimalGrid = ({ animals, searchTerm, user, removeAnimal }) => {
                 onClick={(event) => handleDelete(event, animal.id)}
                 className="absolute top-0 right-0 p-1 m-1"
               >
-                <XCircleIcon className="w-6 h-6 text-white transition duration-300 ease-in-out transform shadow-md hover:text-slate-800 active:scale-90 active:rotate-12" />
+                <XCircleIcon className="w-6 h-6 transition duration-300 ease-in-out transform shadow-md text-green-50 hover:text-slate-800 active:scale-90 active:rotate-12" />
               </button>
             )}
           </motion.div>

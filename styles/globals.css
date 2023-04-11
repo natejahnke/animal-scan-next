@@ -19,4 +19,27 @@ body {
   height: 100%;
 }
 
+.underline-animation::before {
+  content: "";
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-image: linear-gradient(
+    to left,
+    #4ade80 0%,
+    #22c55e 25%,
+    #16a34a 50%,
+    #15803d 75%,
+    #14532d 100%
+  );
+  transition: width 0.3s ease;
+}
+
+.underline-animation:hover::before {
+  width: 100%;
+}
+
   /* Path: styles\globals.css */

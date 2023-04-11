@@ -6,10 +6,10 @@ const AnimalInfoItem = ({ title, content, icon, index }) => {
       <div className="p-4 md:p-6">
         <div className="flex items-start space-x-4">
           {React.cloneElement(icon, {
-            className: "shrink-0 w-6 h-6 text-gray-800 dark:text-gray-200",
+            className: "shrink-0 w-6 h-6 text-green-900 dark:text-gray-200",
           })}
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-800 group-hover:text-blue-600">
+            <h3 className="text-lg font-semibold text-green-900 group-hover:text-green-600">
               {title}
             </h3>
             <p className="mt-2 text-sm text-gray-500">{content}</p>

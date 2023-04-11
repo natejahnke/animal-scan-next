@@ -15,12 +15,12 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
   const [structuredInfo, setStructuredInfo] = useState({});
 
   const icons = [
-    <SearchSharp color="#00000" />,
-    <EarthSharp color="#00000" />,
-    <RestaurantSharp color="#00000" />,
-    <PawSharp color="#00000" />,
-    <FitnessSharp color="#00000" />,
-    <AlertCircleSharp color="#00000" />,
+    <SearchSharp color="#14532d" />,
+    <EarthSharp color="#14532d" />,
+    <RestaurantSharp color="#14532d" />,
+    <PawSharp color="#14532d" />,
+    <FitnessSharp color="#14532d" />,
+    <AlertCircleSharp color="#14532d" />,
   ];
 
   // Use the useEffect hook to parse and structure the animal information when it changes
@@ -90,11 +90,14 @@ function AnimalCaption({ animalName, fullCaption, animalInfo }) {
         <div className="flex flex-col items-start md:flex-row md:items-center md:justify-center">
           <h3
             id="animalName"
-            className="mb-2 mr-8 text-3xl font-bold text-gray-800 md:mb-0"
+            className="mb-2 mr-8 text-3xl font-bold text-green-900 md:mb-0"
           >
             {animalName}
           </h3>
-          <h3 id="AIresponse" className="text-lg text-gray-800">
+          <h3
+            id="AIresponse"
+            className="text-lg text-green-900"
+          >
             <span className="text-sm font-bold">AI Response: </span>
             {fullCaption}
           </h3>

@@ -45,8 +45,11 @@ const AnimalPage = () => {
       transition={pageTransition}
       className="container px-4 py-8 mx-auto"
     >
-      <Link href="/" className="text-blue-600 hover:text-blue-800">
-        <button className="flex gap-1 bg-[#3B71CA] text-white hover:bg-white hover:text-[#3B71CA] hover:border-[#3B71CA] border border-transparent px-4 py-2 rounded transition duration-300 active:bg-[#3B71CA] active:text-white active:border-transparent focus:outline-none">
+      <Link
+        href="/"
+        className="text-blue-600 hover:text-blue-800"
+      >
+        <button className="flex gap-1 bg-[#3B71CA] text-green-50 hover:bg-white hover:text-[#3B71CA] hover:border-[#3B71CA] border border-transparent px-4 py-2 rounded transition duration-300 active:bg-[#3B71CA] active:text-green-50 active:border-transparent focus:outline-none">
           <ArrowLeftIcon className="w-6 h-6" />
           Back
         </button>

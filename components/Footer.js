@@ -6,7 +6,7 @@ const Footer = () => {
     <div>
       <footer className="border-t border-gray-200 bg-slate-50">
         <div className="container px-4 py-4 mx-auto">
-          <div className="flex justify-center space-x-6 text-gray-800">
+          <div className="flex justify-center space-x-6 text-green-900">
             <a
               href="https://github.com/natejahnke/animal-scan-next"
               className="hover:text-[#3B71CA] transition-colors duration-300 flex items-center space-x-1"

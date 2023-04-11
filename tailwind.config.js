@@ -14,20 +14,34 @@ module.exports = {
         fadeIn: "fadeIn 1s ease-in-out forwards",
       },
       backgroundColor: {
-        "dark-blue-1": "#000814",
-        "dark-blue-2": "#001D3D",
-        "dark-blue-3": "#003566",
+        green: {
+          50: "#f0fdf4",
+          100: "#dcfce7",
+          200: "#bbf7d0",
+          300: "#86efac",
+          400: "#4ade80",
+          500: "#22c55e",
+          600: "#16a34a",
+          700: "#15803d",
+          800: "#166534",
+          900: "#14532d",
+          950: "#052e16",
+        },
       },
       textColor: {
-        yellow: "#FFC300",
-        "light-yellow": "#FFD60A",
-      },
-      borderColor: {
-        "dark-blue-1": "#000814",
-      },
-      boxShadow: {
-        "dark-blue-1":
-          "0 1px 3px 0 rgba(0, 8, 20, 0.1), 0 1px 2px 0 rgba(0, 8, 20, 0.06)",
+        green: {
+          50: "#f0fdf4",
+          100: "#dcfce7",
+          200: "#bbf7d0",
+          300: "#86efac",
+          400: "#4ade80",
+          500: "#22c55e",
+          600: "#16a34a",
+          700: "#15803d",
+          800: "#166534",
+          900: "#14532d",
+          950: "#052e16",
+        },
       },
       keyframes: {
         fadeIn: {

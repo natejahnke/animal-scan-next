@@ -30,11 +30,11 @@ const BrowseWrapper = ({ animals, setAnimals, user }) => {
     <div className="min-h-screen bg-slate-50">
       <div className="px-4 py-8">
         <div className="flex flex-col mx-auto max-w-7xl md:flex-row md:items-center md:justify-between md:space-x-4">
-          <h1 className="mb-6 text-3xl font-bold text-center text-gray-800">
+          <h1 className="relative mb-6 text-3xl font-bold text-center text-green-900 underline-animation">
             <Link href={"/browse"}>
               <span className="flex items-center justify-center">
-                <PawSharp />
-                <span className="ml-2">Browse Animals</span>
+                <PawSharp color="#14532d" />
+                <span className="ml-2">Explore Animals</span>
               </span>
             </Link>
           </h1>
@@ -43,8 +43,10 @@ const BrowseWrapper = ({ animals, setAnimals, user }) => {
               <button
                 onClick={() => handleFilter("all")}
                 className={`${
-                  filter === "all" ? "bg-blue-500" : "bg-white"
-                } px-4 py-2 text-gray-800 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200`}
+                  filter === "all"
+                    ? "bg-green-600"
+                    : "bg-green-50 text-green-900"
+                } px-4 py-2 text-green-50 border border-green-100 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-green-200`}
               >
                 All Animals
               </button>
@@ -52,8 +54,8 @@ const BrowseWrapper = ({ animals, setAnimals, user }) => {
               <button
                 onClick={() => handleFilter("user")}
                 className={`${
-                  filter === "user" ? "bg-blue-500" : "bg-white"
-                } px-4 py-2 text-gray-700 border border-gray-300 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-200`}
+                  filter === "user" ? "bg-green-600" : "bg-white text-green-900"
+                } px-4 py-2 text-green-50 border border-green-100 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-green-200`}
                 disabled={!user}
               >
                 My Animals

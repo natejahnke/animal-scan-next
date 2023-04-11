@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { auth, provider } from "../firebase";
-import { HomeSharp } from "react-ionicons";
+import { CameraSharp, HomeSharp } from "react-ionicons";
 
 const Navbar = ({ user, setUser }) => {
   const [active, setActive] = useState(false);
@@ -44,7 +44,7 @@ const Navbar = ({ user, setUser }) => {
   }, []);
 
   return (
-    <div className="text-white navbar bg-base-100">
+    <div className="text-green-50 navbar bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
           <label
@@ -74,7 +74,7 @@ const Navbar = ({ user, setUser }) => {
               <Link href={"/"}>Home</Link>
             </li>
             <li>
-              <Link href={"/browse"}>Browse Animals</Link>
+              <Link href={"/browse"}>Explore Animals</Link>
             </li>
           </ul>
         </div>
@@ -93,20 +93,7 @@ const Navbar = ({ user, setUser }) => {
       </div>
       <div className="navbar-end">
         <button className="btn btn-ghost btn-circle">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="w-5 h-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+          <CameraSharp color="#FFFFFF" />
           <span className="text-xs">Add Animal</span>
         </button>
         <div className="dropdown dropdown-end">

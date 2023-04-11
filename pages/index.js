@@ -129,15 +129,18 @@ export default function Home({ user }) {
             name="description"
             content="Upload an image of an animal to find out its name with Nate's AI Animal Detector"
           />
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+          />
           <meta charSet="utf-8" />
         </Head>
         <main className="flex-grow m-2 sm:m-4">
-          <div className="px-1 mx-auto text-gray-800 shadow-lg bg-slate-50 rounded-xl sm:p-1">
+          <div className="px-1 mx-auto text-green-900 shadow-lg bg-slate-50 rounded-xl sm:p-1">
             <h1 className="mb-1 text-3xl font-bold text-center">
               AI Wildlife Explorer
             </h1>
-            <h3 className="mb-2 text-center text-gray-800">
+            <h3 className="mb-2 text-center text-green-900">
               Explore the world of animals with AI Wildlife Explorer - upload an
               image and unveil fascinating insights about common species!
             </h3>
@@ -149,11 +152,14 @@ export default function Home({ user }) {
                   data-te-ripple-init
                   data-te-ripple-color="light"
                   className={
-                    "mb-2 flex rounded px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out bg-[#3B71CA] text-white shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
+                    "mb-2 flex rounded px-12 pt-2.5 pb-2 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out bg-[#3B71CA] text-green-50 shadow-[0_4px_9px_-4px_#3b71ca] hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)]"
                   }
                   onClick={handleButtonClick}
                 >
-                  <CloudUploadSharp color="#ffffff" className="pr-2" />
+                  <CloudUploadSharp
+                    color="#ffffff"
+                    className="pr-2"
+                  />
                   Upload Image
                 </button>
                 {!user && showSignInMessage && (
