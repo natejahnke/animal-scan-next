@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth, provider } from "../firebase";
 import { CameraSharp, HomeSharp } from "react-ionicons";
+import BottomNavbar from "./BottomNavbar";
 
 const Navbar = ({ user, setUser }) => {
   const [active, setActive] = useState(false);
@@ -47,10 +48,7 @@ const Navbar = ({ user, setUser }) => {
     <div className="text-green-50 navbar bg-base-100">
       <div className="navbar-start">
         <div className="dropdown">
-          <label
-            tabIndex={0}
-            className="btn btn-ghost btn-circle"
-          >
+          <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-5 h-5"
@@ -80,14 +78,8 @@ const Navbar = ({ user, setUser }) => {
         </div>
       </div>
       <div className="navbar-center">
-        <Link
-          href={"/"}
-          className="text-xl normal-case btn btn-ghost"
-        >
-          <HomeSharp
-            color="#FFFFFF"
-            className="mr-1"
-          />
+        <Link href={"/"} className="text-xl normal-case btn btn-ghost">
+          <HomeSharp color="#FFFFFF" className="mr-1" />
           AIWild
         </Link>
       </div>
@@ -99,10 +91,7 @@ const Navbar = ({ user, setUser }) => {
         <div className="dropdown dropdown-end">
           {user ? (
             <>
-              <label
-                tabIndex={0}
-                className="btn btn-ghost btn-circle avatar"
-              >
+              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                 <div className="w-10 rounded-full">
                   <img src={user.photoURL} />
                 </div>
@@ -120,10 +109,7 @@ const Navbar = ({ user, setUser }) => {
               </ul>
             </>
           ) : (
-            <button
-              onClick={signIn}
-              className="btn btn-ghost"
-            >
+            <button onClick={signIn} className="btn btn-ghost">
               Sign in with Google
             </button>
           )}

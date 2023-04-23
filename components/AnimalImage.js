@@ -42,6 +42,7 @@ function AnimalImage({
 
   const handleFileSelect = async (evt) => {
     console.log("handleFileSelect called");
+    event.preventDefault();
     const file = evt.target.files[0];
 
     // Check if a file was selected
@@ -92,9 +93,11 @@ function AnimalImage({
       animalInfo = await fetchAnimalInfo(animalName, prompt);
 
       // Save the information to Firebase
-      await db.collection("animals").doc(animalName).set({
-        info: animalInfo,
-      });
+      if (user) {
+        await db.collection("animals").doc(animalName).set({
+          info: animalInfo,
+        });
+      }
     }
     if (animalName) {
       setAnimalDetails(animalInfo);
@@ -121,7 +124,7 @@ function AnimalImage({
   };
 
   const uploadImage = async (blobImage, animalName) => {
-    if (!animalName) return null;
+    if (!animalName || !user) return null;
 
     const storageRef = storage.ref();
     const animalImageRef = storageRef.child(
