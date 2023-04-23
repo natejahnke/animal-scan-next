@@ -3,7 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { auth, provider } from "../firebase";
 import { CameraSharp, HomeSharp } from "react-ionicons";
-import BottomNavbar from "./BottomNavbar";
 
 const Navbar = ({ user, setUser }) => {
   const [active, setActive] = useState(false);

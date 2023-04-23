@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
-import BottomNavbar from "./BottomNavbar";
 import Footer from "./Footer";
 import { auth, provider } from "../firebase";
 
@@ -48,7 +47,6 @@ const Layout = ({ children }) => {
           signIn={signIn}
           signOut={signOut}
         />
-        <BottomNavbar user={user} signIn={signIn} signOut={signOut} />
       </>
       {React.cloneElement(children, { user })}
       <Footer />
