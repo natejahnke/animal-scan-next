@@ -59,6 +59,8 @@ export default function Home({ user }) {
     imageFile,
     uploadedImageURL
   ) => {
+    console.log("handleImageProcess called");
+
     // Add 'async' here
     setAnimalName(name);
     setFullCaption(caption);
@@ -97,6 +99,7 @@ export default function Home({ user }) {
     } catch (error) {
       console.error("Error saving data to the database:", error);
     }
+    console.log("handleImageProcess finished");
   };
 
   // Function to set imageUploaded state variable to true
@@ -129,10 +132,7 @@ export default function Home({ user }) {
             name="description"
             content="Upload an image of an animal to find out its name with Nate's AI Animal Detector"
           />
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-          />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <meta charSet="utf-8" />
         </Head>
         <main className="flex-grow m-2 sm:m-4">
@@ -156,10 +156,7 @@ export default function Home({ user }) {
                   }
                   onClick={handleButtonClick}
                 >
-                  <CloudUploadSharp
-                    color="#ffffff"
-                    className="pr-2"
-                  />
+                  <CloudUploadSharp color="#ffffff" className="pr-2" />
                   Upload Image
                 </button>
                 {!user && showSignInMessage && (

@@ -54,7 +54,7 @@ function AnimalImage({
     setLoading(true);
     setErrorMessage("");
     setLoading(true);
-    onImageProcess("", "", "", "", "", "");
+    // onImageProcess("", "", "", "", "", "");
     onImageUpload();
     setOpacity(0);
 
@@ -107,6 +107,7 @@ function AnimalImage({
       setAnimalDetails(animalInfo);
     }
     const uploadedImageURL = await uploadImage(file, animalName);
+    console.log("Before calling onImageProcess");
     onImageProcess(
       animalName,
       fullCaption,
@@ -115,6 +116,7 @@ function AnimalImage({
       file,
       uploadedImageURL
     );
+    console.log("After calling onImageProcess");
     setLoading(false);
     setUploadedAnimals((prevAnimals) => [
       ...prevAnimals,
