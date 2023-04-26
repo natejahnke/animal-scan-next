@@ -68,8 +68,12 @@ function AnimalImage({
 
     const fullCaption = await processImage(file);
     console.log("processImage returned:", fullCaption);
+
+    // Sort the animals array by length in descending order
+    const sortedAnimals = animals.sort((a, b) => b.length - a.length);
+
     let animalName;
-    for (const name of animals) {
+    for (const name of sortedAnimals) {
       const regex = new RegExp(`\\b${name}(s)?\\b`, "i");
       if (regex.test(fullCaption)) {
         animalName = name;
