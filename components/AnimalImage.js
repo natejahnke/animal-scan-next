@@ -84,12 +84,15 @@ function AnimalImage({
     console.log("Animal name:", animalName);
 
     // Check if the animal's information already exists in the Firebase database
-    const animalSnapshot = await db.collection("animals").doc(animalName).get();
+    const animalSnapshot = await db
+      .collection("animals")
+      .where("name", "==", animalName)
+      .get();
 
     let animalInfo;
-    if (animalSnapshot.exists) {
+    if (!animalSnapshot.empty) {
       // The animal information already exists in Firebase
-      animalInfo = animalSnapshot.data().info;
+      animalInfo = animalSnapshot.docs[0].data().info;
     } else {
       // The animal information doesn't exist in Firebase
       // Fetch the information from the OpenAI API
@@ -97,11 +100,11 @@ function AnimalImage({
       animalInfo = await fetchAnimalInfo(animalName, prompt);
 
       // Save the information to Firebase
-      if (user) {
-        await db.collection("animals").doc(animalName).set({
-          info: animalInfo,
-        });
-      }
+      // if (user) {
+      //   await db.collection("animals").doc(animalName).set({
+      //     info: animalInfo,
+      //   });
+      // }
     }
     if (animalName) {
       setAnimalDetails(animalInfo);
